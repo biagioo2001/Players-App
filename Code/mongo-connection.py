@@ -1,40 +1,34 @@
+from flask import Flask, jsonify
 from flask_pymongo import PyMongo
-from pymongo import MongoClient
 
+app = Flask(__name__)
 
-from pymongo import MongoClient
+# Configura la connessione a MongoDB con Flask-PyMongo
+app.config['MONGO_URI'] = 'mongodb://localhost:27017/Players'  # Sostituisci con l'URI del tuo database
+mongo = PyMongo(app)
 
-# Configura la connessione a MongoDB
-client = MongoClient('mongodb://localhost:27017')  # Sostituisci con l'indirizzo del tuo database
+# Verifica la connessione a MongoDB
+try:
+    mongo.db.command('ping')  # Esegue un comando per verificare la connessione
+    print("Connessione al database MongoDB avvenuta con successo.")
+except Exception as e:
+    print(f"Errore di connessione al database MongoDB: {str(e)}")
 
-# Seleziona il database e la collezione
-database = client['NBA_Players']  # Sostituisci con il nome del tuo database
-collection= database['NBA players']  # Sostituisci con il nome della tua collezione
+# Rotte per interagire con il database
+@app.route('/api/documents', methods=['GET'])
+def get_documents():
+    # Seleziona il database e la collezione
+    database = mongo.db  # Usa il database impostato in PyMongo
+    collection = database['Giocatori']  # Sostituisci con il nome della tua collezione
 
-# Recupera tutti i documenti nella collezione
-documenti = collection.find()
+    # Recupera tutti i documenti nella collezione
+    documenti = collection.find()
 
-# Stampa i documenti
-for documento in documenti:
-    print(documento)
+    # Converte i documenti in una lista di dizionari (JSON serializzabile)
+    documenti_list = [documento for documento in documenti]
 
-# Chiudi la connessione a MongoDB
-client.close()
+    # Restituisci i documenti come JSON
+    return jsonify(documenti_list)
 
-
-""""
-# Configurazione del database MongoDB
-# Definizione dell'URI per la connessione al database MongoDB. In questo caso, il database è in esecuzione localmente sulla porta 27017.
-mongo_uri = 'mongodb://localhost:27017'
-
-# Creazione di un oggetto MongoClient utilizzando l'URI definito sopra. Questo oggetto viene utilizzato per stabilire una connessione al database MongoDB.
-client = MongoClient(mongo_uri)
-
-# Seleziona il database 'NBA_Players' dalla connessione. Questo istruisce il client a utilizzare il database specificato per le operazioni successive.
-db = client['NBA_Players']
-
-# Seleziona la collezione 'NBA players' dal database. La collezione è dove vengono memorizzati i documenti all'interno del database.
-# In questo caso, la collezione contiene i dati dei giocatori NBA.
-collection = db['NBA players']
-print(db)
-"""
+if __name__ == '__main__':
+    app.run(debug=True)
