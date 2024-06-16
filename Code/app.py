@@ -3,135 +3,94 @@ from query_manager import query_delete
 from query_manager import query_update_age
 from query_manager import query_insert_giocatore
 from query_manager import query_update_height_weight
-from query_manager import query_by_country_college
-from query_manager import query_by_country_college_team
-from query_manager import query_by_ast_reb
-from query_manager import query_by_ast_reb_pts
+from query_manager import query_by_nationality_and_club
+from query_manager import query_by_nationality_and_club_and_position
+from query_manager import query_by_assists_and_clean_sheets
+from query_manager import query_by_goals_assists_clean_sheets
 
 app = Flask(__name__)
+
 @app.route('/', methods=['GET'])
 def index():
     return render_template('index.html')
+
 @app.route('/query', methods=['GET'])
 def query():
     return render_template('query.html')
 
-
-
-@app.route('/query_delete', methods=['GET','POST'])
+@app.route('/query_delete', methods=['GET', 'POST'])
 def handle_query_delete():
     if request.method == 'POST':
-        id_oggetto = request.form['id_oggetto']
-        
-        risultato=query_delete(id_oggetto)
-    return render_template('risultato_delete.html', id_oggetto=id_oggetto)
-
-
+        id_player = request.form['id_player']
+        risultato = query_delete(id_player)
+        return render_template('risultato_delete.html', id_player=id_player)
+    return render_template('query_delete.html')
 
 @app.route('/query_update_age', methods=['POST'])
 def handle_query_update_age():
-    nome_oggetto = {}
-    nuovo_age={}
-    nome_oggetto = request.form['nome_oggetto']
-    nuovo_age= request.form['nuovo_age']
-    oggetto=query_update_age(nome_oggetto,nuovo_age)
+    full_name = request.form['full_name']
+    new_age = request.form['new_age']
+    oggetto = query_update_age(full_name, new_age)
     return render_template('query_update_age.html', oggetto=oggetto)
-
 
 @app.route('/query_insert', methods=['POST'])
 def handle_query_insert_giocatore():
-    nuovo_oggetto = {}
-    
-
-    nuovo_oggetto["id"] = request.form.get('id')
-    nuovo_oggetto["player_name"] = request.form.get('player_name')
-    nuovo_oggetto["team_abbreviation"] = request.form.get('team_abbreviation')
-    nuovo_oggetto["age"] = request.form.get('age')
-    nuovo_oggetto["player_height"] = float(request.form.get('player_height'))
-    nuovo_oggetto["player_weight"] = float(request.form.get('player_weight'))
-    nuovo_oggetto["college"] = request.form.get('college')
-    nuovo_oggetto["country"] = request.form.get('country')
-    nuovo_oggetto["draft_year"] = int(request.form.get('draft_year'))
-    nuovo_oggetto["draft_round"] = int(request.form.get('draft_round'))
-    nuovo_oggetto["draft_number"] = int(request.form.get('draft_number'))
-    nuovo_oggetto["gp"] = int(request.form.get('gp'))
-    nuovo_oggetto["pts"] = float(request.form.get('pts'))
-    nuovo_oggetto["reb"] = float(request.form.get('reb'))
-    nuovo_oggetto["ast"] = float(request.form.get('ast'))
-    nuovo_oggetto["net_rating"] = float(request.form.get('net_rating'))
-    nuovo_oggetto["oreb_pct"] = float(request.form.get('oreb_pct'))
-    nuovo_oggetto["dreb_pct"] = float(request.form.get('dreb_pct'))
-    nuovo_oggetto["usg_pct"] = float(request.form.get('usg_pct'))
-    nuovo_oggetto["ts_pct"] = float(request.form.get('ts_pct'))
-    nuovo_oggetto["ast_pct"] = float(request.form.get('ast_pct'))
-    nuovo_oggetto["season"] = request.form.get('season')
-    nuovo_oggetto["pst"] = request.form.get('pst')
-
-    risultato=query_insert_giocatore(nuovo_oggetto)
-
+    nuovo_giocatore = {
+        "id": request.form.get('id'),
+        "full_name": request.form.get('full_name'),
+        "age": request.form.get('age'),
+        "position": request.form.get('position'),
+        "current_club": request.form.get('current_club'),
+        "nationality": request.form.get('nationality'),
+        "appearances_overall": request.form.get('appearances_overall'),
+        "goals_overall": request.form.get('goals_overall'),
+        "assists_overall": request.form.get('assists_overall'),
+        "clean_sheets_overall": request.form.get('clean_sheets_overall'),
+        "yellow_cards_overall": request.form.get('yellow_cards_overall'),
+        "red_cards_overall": request.form.get('red_cards_overall'),
+        "minutes_played_overall": request.form.get('minutes_played_overall'),
+        "rating_overall": request.form.get('rating_overall')
+    }
+    risultato = query_insert_giocatore(nuovo_giocatore)
     return render_template('query_insert.html', oggetto=risultato)
-
-
 
 @app.route('/query_update_height_weight', methods=['POST'])
 def handle_query_update_height_weight():
-    nome_oggetto = {}
-    nuovo_height={}
-    nuovo_weight={}
-    nome_oggetto = request.form['nome_oggetto']
-    nuovo_height= request.form['nuovo_height']
-    nuovo_weight= request.form['nuovo_weight']
-    oggetto=query_update_height_weight(nome_oggetto,nuovo_height,nuovo_weight )
+    full_name = request.form['full_name']
+    new_height = request.form['new_height']
+    new_weight = request.form['new_weight']
+    oggetto = query_update_height_weight(full_name, new_height, new_weight)
     return render_template('query_update_height_weight.html', oggetto=oggetto)
 
+@app.route('/query_by_nationality_and_club', methods=['POST'])
+def handle_query_by_nationality_and_club():
+    nationality = request.form['nationality']
+    current_club = request.form['current_club']
+    oggetto = query_by_nationality_and_club(nationality, current_club)
+    return render_template('query_by_nationality_and_club.html', oggetto=oggetto)
 
+@app.route('/query_by_nationality_and_club_and_position', methods=['POST'])
+def handle_query_by_nationality_and_club_and_position():
+    nationality = request.form['nationality']
+    current_club = request.form['current_club']
+    position = request.form['position']
+    oggetto = query_by_nationality_and_club_and_position(nationality, current_club, position)
+    return render_template('query_by_nationality_and_club_and_position.html', oggetto=oggetto)
 
-@app.route('/query_by_country_and_college', methods=['POST'])
-def handle_query_by_country_and_college():
-    
-    country={}
-    college={}
-    country= request.form['country']
-    college= request.form['college']
-    oggetto=query_by_country_college(country, college )
-    return render_template('query_by_country_and_college.html', oggetto=oggetto)
+@app.route('/query_by_assists_and_clean_sheets', methods=['POST'])
+def handle_query_by_assists_and_clean_sheets():
+    assists_overall = float(request.form['assists_overall'])
+    clean_sheets_overall = float(request.form['clean_sheets_overall'])
+    oggetto = query_by_assists_and_clean_sheets(assists_overall, clean_sheets_overall)
+    return render_template('query_by_assists_and_clean_sheets.html', oggetto=oggetto)
 
-
-@app.route('/query_by_country_and_college_team', methods=['POST'])
-def handle_query_by_country_and_college_team():
-    
-    country={}
-    college={}
-    team={}
-    country= request.form['country']
-    college= request.form['college']
-    team= request.form['team']
-    oggetto=query_by_country_college_team(country, college,team )
-    return render_template('query_by_country_and_college_team.html', oggetto=oggetto)
-
-
-@app.route('/query_by_ast_reb', methods=['POST'])
-def handle_query_by_ast_reb():
-    
-    ast={}
-    reb={}
-    ast= float(request.form.get('ast'))
-    reb= float(request.form.get('reb'))
-    oggetto=query_by_ast_reb(ast,reb )
-    return render_template('query_by_ast_reb.html', oggetto=oggetto)
-
-@app.route('/query_by_ast_reb_pts', methods=['POST'])
-def handle_query_by_ast_reb_pts():
-    
-    ast={}
-    reb={}
-    pts={}
-    ast=float(request.form.get('pts'))
-    reb = float(request.form.get('reb'))
-    pts = float(request.form.get('ast'))
-    oggetto=query_by_ast_reb_pts(ast,reb,pts)
-    return render_template('query_by_ast_reb_pts.html', oggetto=oggetto)
-    
+@app.route('/query_by_goals_assists_clean_sheets', methods=['POST'])
+def handle_query_by_goals_assists_clean_sheets():
+    goals_overall = float(request.form['goals_overall'])
+    assists_overall = float(request.form['assists_overall'])
+    clean_sheets_overall = float(request.form['clean_sheets_overall'])
+    oggetto = query_by_goals_assists_clean_sheets(goals_overall, assists_overall, clean_sheets_overall)
+    return render_template('query_by_goals_assists_clean_sheets.html', oggetto=oggetto)
 
 if __name__ == '__main__':
     app.run(debug=True)

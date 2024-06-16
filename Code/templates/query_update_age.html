@@ -3,33 +3,30 @@
 <head>
     <title>Query Update Age</title>
     <div>
-        <a href="http://127.0.0.1:5000/query" >NBA QUERY</a>
+        <a href="http://127.0.0.1:5000/query">NBA QUERY</a>
     </div>
 </head>
 <body>
     <h1>Query Update Age</h1>
 
-    <li>Id: {{ oggetto.id }}</li>
-    <li>Player Name: {{ oggetto.player_name }}</li>
-    <li>Team Abbreviation: {{ oggetto.team_abbreviation }}</li>
-    <li>Age: {{ oggetto.age }}</li>
-    <li>Player Height: {{ oggetto.player_height }}</li>
-    <li>Player Weight: {{ oggetto.player_weight }}</li>
-    <li>College: {{ oggetto.college }}</li>
-    <li>Country: {{ oggetto.country }}</li>
-    <li>Draft Year: {{ oggetto.draft_year }}</li>
-    <li>Draft Round: {{ oggetto.draft_round }}</li>
-    <li>Draft Number: {{ oggetto.draft_number }}</li>
-    <li>GP: {{ oggetto.gp }}</li>
-    <li>PTS: {{ oggetto.pts }}</li>
-    <li>REB: {{ oggetto.reb }}</li>
-    <li>Net Rating: {{ oggetto.net_rating }}</li>
-    <li>OREB PCT: {{ oggetto.oreb_pct }}</li>
-    <li>DREB PCT: {{ oggetto.dreb_pct }}</li>
-    <li>USG PCT: {{ oggetto.usg_pct }}</li>
-    <li>TS PCT: {{ oggetto.ts_pct }}</li>
-    <li>AST PCT: {{ oggetto.ast_pct }}</li>
-    <li>Season: {{ oggetto.season }}</li>
-    <li>PST: {{ oggetto.pst }}</li>
+    <ul>
+        <li>Id: {{ oggetto.id }}</li>
+        <li>Full Name: {{ oggetto.full_name }}</li>
+        <li>Current Club: {{ oggetto.current_club }}</li>
+        <li>Age: {{ oggetto.age }}</li>
+        <li>Height: {{ oggetto.height }}</li>
+        <li>Weight: {{ oggetto.weight }}</li>
+        <li>Nationality: {{ oggetto.nationality }}</li>
+        <li>Position: {{ oggetto.position }}</li>
+        <li>Goals Overall: {{ oggetto.goals_overall }}</li>
+        <li>Assists Overall: {{ oggetto.assists_overall }}</li>
+        <li>Clean Sheets Overall: {{ oggetto.clean_sheets_overall }}</li>
+        <li>Minutes Played Overall: {{ oggetto.minutes_played_overall }}</li>
+        <li>Interceptions Overall: {{ oggetto.interceptions_overall }}</li>
+        <li>Red Cards Overall: {{ oggetto.red_cards_overall }}</li>
+        <li>Yellow Cards Overall: {{ oggetto.yellow_cards_overall }}</li>
+        <li>Shots Overall: {{ oggetto.shots_overall }}</li>
+        <li>Shots on Target Overall: {{ oggetto.shots_on_target_overall }}</li>
+    </ul>
 </body>
 </html>
