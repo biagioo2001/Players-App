@@ -1,32 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Query Update Age</title>
-    <div>
-        <a href="http://127.0.0.1:5000/query">NBA QUERY</a>
-    </div>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Query Update Age</h1>
+    <center><h1>Query Update Age</h1></center>
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="players.html">Players</a></li>
+                <li><a href="query.html">Query</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <ul>
-        <li>Id: {{ oggetto.id }}</li>
-        <li>Full Name: {{ oggetto.full_name }}</li>
-        <li>Current Club: {{ oggetto.current_club }}</li>
-        <li>Age: {{ oggetto.age }}</li>
-        <li>Height: {{ oggetto.height }}</li>
-        <li>Weight: {{ oggetto.weight }}</li>
-        <li>Nationality: {{ oggetto.nationality }}</li>
-        <li>Position: {{ oggetto.position }}</li>
-        <li>Goals Overall: {{ oggetto.goals_overall }}</li>
-        <li>Assists Overall: {{ oggetto.assists_overall }}</li>
-        <li>Clean Sheets Overall: {{ oggetto.clean_sheets_overall }}</li>
-        <li>Minutes Played Overall: {{ oggetto.minutes_played_overall }}</li>
-        <li>Interceptions Overall: {{ oggetto.interceptions_overall }}</li>
-        <li>Red Cards Overall: {{ oggetto.red_cards_overall }}</li>
-        <li>Yellow Cards Overall: {{ oggetto.yellow_cards_overall }}</li>
-        <li>Shots Overall: {{ oggetto.shots_overall }}</li>
-        <li>Shots on Target Overall: {{ oggetto.shots_on_target_overall }}</li>
-    </ul>
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Full Name</th>
+                    <th>Current Club</th>
+                    <th>Age</th>
+                    <th>Height</th>
+                    <th>Weight</th>
+                    <th>Nationality</th>
+                    <th>Position</th>
+                    <th>Goals Overall</th>
+                    <th>Assists Overall</th>
+                    <th>Clean Sheets Overall</th>
+                    <th>Minutes Played Overall</th>
+                    <th>Interceptions Overall</th>
+                    <th>Red Cards Overall</th>
+                    <th>Yellow Cards Overall</th>
+                    <th>Shots Overall</th>
+                    <th>Shots on Target Overall</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Replace with actual data loop based on your server-side rendering -->
+                {% for oggetto in oggetto %}
+                    <tr>
+                        <td>{{ oggetto.id }}</td>
+                        <td>{{ oggetto.full_name }}</td>
+                        <td>{{ oggetto.current_club }}</td>
+                        <td>{{ oggetto.age }}</td>
+                        <td>{{ oggetto.height }}</td>
+                        <td>{{ oggetto.weight }}</td>
+                        <td>{{ oggetto.nationality }}</td>
+                        <td>{{ oggetto.position }}</td>
+                        <td>{{ oggetto.goals_overall }}</td>
+                        <td>{{ oggetto.assists_overall }}</td>
+                        <td>{{ oggetto.clean_sheets_overall }}</td>
+                        <td>{{ oggetto.minutes_played_overall }}</td>
+                        <td>{{ oggetto.interceptions_overall }}</td>
+                        <td>{{ oggetto.red_cards_overall }}</td>
+                        <td>{{ oggetto.yellow_cards_overall }}</td>
+                        <td>{{ oggetto.shots_overall }}</td>
+                        <td>{{ oggetto.shots_on_target_overall }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 Players App. Tutti i diritti riservati.</p>
+            <ul>
+                <li><a href="#privacy">Privacy</a></li>
+                <li><a href="#terms">Terms of Use</a></li>
+                <li><a href="#contact">Contatti</a></li>
+            </ul>
+        </div>
+    </footer>
 </body>
 </html>
