@@ -1,99 +1,118 @@
 <!DOCTYPE html>
-<html lang="it">
-
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Players App</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-
+    <meta charset="UTF-8">
+    <title>Query Update Age</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
-
 <body>
-  <center><h1>Players_App</h1></center>
-  <!-- Header -->
-
-  <header>
-    <div class="logo">
-      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo del sito">
-
+    <div>
+        <a href="http://127.0.0.1:5000/query">NBA QUERY</a>
     </div>
-
-
-<nav>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li> <a href="#">Players</a></li>
-        <li><a href="/query">Query</a></li>
-      </ul>
-    </nav>
-  </header>
-
-
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Full Name</th>
-                    <th>Current Club</th>
-                    <th>Age</th>
-                    <th>Height</th>
-                    <th>Weight</th>
-                    <th>Nationality</th>
-                    <th>Position</th>
-                    <th>Goals Overall</th>
-                    <th>Assists Overall</th>
-                    <th>Clean Sheets Overall</th>
-                    <th>Minutes Played Overall</th>
-                    <th>Interceptions Overall</th>
-                    <th>Red Cards Overall</th>
-                    <th>Yellow Cards Overall</th>
-                    <th>Shots Overall</th>
-                    <th>Shots on Target Overall</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in oggetto %}
-                    <tr>
-                        <td>{{ item.id }}</td>
-                        <td>{{ item.full_name }}</td>
-                        <td>{{ item.current_club }}</td>
-                        <td>{{ item.age }}</td>
-                        <td>{{ item.height }}</td>
-                        <td>{{ item.weight }}</td>
-                        <td>{{ item.nationality }}</td>
-                        <td>{{ item.position }}</td>
-                        <td>{{ item.goals_overall }}</td>
-                        <td>{{ item.assists_overall }}</td>
-                        <td>{{ item.clean_sheets_overall }}</td>
-                        <td>{{ item.minutes_played_overall }}</td>
-                        <td>{{ item.interceptions_overall }}</td>
-                        <td>{{ item.red_cards_overall }}</td>
-                        <td>{{ item.yellow_cards_overall }}</td>
-                        <td>{{ item.shots_overall }}</td>
-                        <td>{{ item.shots_on_target_overall }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
-   <!-- Footer -->
-  <footer>
-    <div class="footer-content">
-      <p>&copy; 2024 Players App. Tutti i diritti riservati.</p>
-      <ul>
-        <li><a href="#privacy">Privacy</a></li>
-        <li><a href="#terms">Terms of Use</a></li>
-        <li><a href="#contact">Contatti</a></li>
-      </ul>
-    </div>
-  </footer>
-
-  <!-- Script per il codice React -->
-  <script src="./static/query.js"></script>
-  <script src="./index.html"></script>
+    <h1>Query Update Age</h1>
+    <table>
+        <tr>
+            <th>Attribute</th>
+            <th>Value</th>
+        </tr>
+        <tr>
+            <td>Id</td>
+            <td>{{ oggetto.id }}</td>
+        </tr>
+        <tr>
+            <td>Full Name</td>
+            <td>{{ oggetto.full_name }}</td>
+        </tr>
+        <tr>
+            <td>Current Club</td>
+            <td>{{ oggetto.current_club }}</td>
+        </tr>
+        <tr>
+            <td>Age</td>
+            <td>{{ oggetto.age }}</td>
+        </tr>
+        <tr>
+            <td>Height</td>
+            <td>{{ oggetto.height }}</td>
+        </tr>
+        <tr>
+            <td>Weight</td>
+            <td>{{ oggetto.weight }}</td>
+        </tr>
+        <tr>
+            <td>Nationality</td>
+            <td>{{ oggetto.nationality }}</td>
+        </tr>
+        <tr>
+            <td>Position</td>
+            <td>{{ oggetto.position }}</td>
+        </tr>
+        <tr>
+            <td>Goals Overall</td>
+            <td>{{ oggetto.goals_overall }}</td>
+        </tr>
+        <tr>
+            <td>Assists Overall</td>
+            <td>{{ oggetto.assists_overall }}</td>
+        </tr>
+        <tr>
+            <td>Clean Sheets Overall</td>
+            <td>{{ oggetto.clean_sheets_overall }}</td>
+        </tr>
+        <tr>
+            <td>Minutes Played Overall</td>
+            <td>{{ oggetto.minutes_played_overall }}</td>
+        </tr>
+        <tr>
+            <td>Interceptions Overall</td>
+            <td>{{ oggetto.interceptions_overall }}</td>
+        </tr>
+        <tr>
+            <td>Red Cards Overall</td>
+            <td>{{ oggetto.red_cards_overall }}</td>
+        </tr>
+        <tr>
+            <td>Yellow Cards Overall</td>
+            <td>{{ oggetto.yellow_cards_overall }}</td>
+        </tr>
+        <tr>
+            <td>Shots Overall</td>
+            <td>{{ oggetto.shots_overall }}</td>
+        </tr>
+        <tr>
+            <td>Shots on Target Overall</td>
+            <td>{{ oggetto.shots_on_target_overall }}</td>
+        </tr>
+    </table>
 </body>
-
 </html>
