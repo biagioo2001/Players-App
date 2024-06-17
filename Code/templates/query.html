@@ -1,99 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premier League Stats</title>
-    <style>
-        /* Stili per il layout della pagina */
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Players App</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 
-        header {
-            background-color: #1b2d5e;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-        }
-
-        nav {
-            background-color: #0c1c3d;
-            display: flex;
-            justify-content: center;
-            padding: 10px;
-        }
-
-        nav a {
-            color: #fff;
-            margin: 0 10px;
-            text-decoration: none;
-        }
-
-        main {
-            padding: 20px;
-        }
-
-        footer {
-            background-color: #0c1c3d;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-        }
-
-        #root {
-            padding: 20px;
-        }
-
-        h1, h2, h3 {
-            color: #1b2d5e;
-        }
-
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        li {
-            margin-bottom: 10px;
-        }
-
-        button {
-            background-color: #1b2d5e;
-            color: #fff;
-            border: none;
-            padding: 8px 12px;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
-
-        button:hover {
-            background-color: #0c1c3d;
-        }
-
-        input[type="text"], input[type="number"] {
-            padding: 8px;
-            border: 1px solid #ccc;
-            width: 100%;
-        }
-    </style>
 </head>
 
 <body>
-    <!-- Header -->
-    <header>
-        <h1>Premier League Stats</h1>
-    </header>
+  <center><h1>Players_App</h1></center>
+  <!-- Header -->
 
+  <header>
+    <div class="logo">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo del sito">
+
+    </div>
     <nav>
-        <a href="/">Home</a>
-        <a href="#">Players</a>
-        <a href="/query">Query</a>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li> <a href="#">Players</a></li>
+        <li><a href="/query">Query</a></li>
+      </ul>
     </nav>
-
+  </header>
     <!-- Sezione principale della pagina -->
     <main>
         <h2>Premier League Query Page</h2>
@@ -259,6 +191,22 @@
             document.getElementById(queryType + "_form").style.display = "block";
         }
     </script>
+<!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2024 Players App. Tutti i diritti riservati.</p>
+      <ul>
+        <li><a href="#privacy">Privacy</a></li>
+        <li><a href="#terms">Terms of Use</a></li>
+        <li><a href="#contact">Contatti</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Script per il codice React -->
+  <script src="./static/query.js"></script>
+  <script src="./index.html"></script>
 </body>
 
 </html>
+

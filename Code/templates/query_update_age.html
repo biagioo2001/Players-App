@@ -1,24 +1,99 @@
-<!DOCTYPE html> <html> <head> <title>Query Update Age</title>
-    <div> <a href="http://127.0.0.1:5000/query">NBA QUERY</a> </div>
-</head> <body> <h1>Query Update Age</h1>
-<ul>
-    <li>Id: {{ oggetto.id }}</li>
-    <li>Full Name: {{ oggetto.full_name }}</li>
-    <li>Current Club: {{ oggetto.current_club }}</li>
-    <li>Age: {{ oggetto.age }}</li>
-    <li>Height: {{ oggetto.height }}</li>
-    <li>Weight: {{ oggetto.weight }}</li>
-    <li>Nationality: {{ oggetto.nationality }}</li>
-    <li>Position: {{ oggetto.position }}</li>
-    <li>Goals Overall: {{ oggetto.goals_overall }}</li>
-    <li>Assists Overall: {{ oggetto.assists_overall }}</li>
-    <li>Clean Sheets Overall: {{ oggetto.clean_sheets_overall }}</li>
-    <li>Minutes Played Overall: {{ oggetto.minutes_played_overall }}</li>
-    <li>Interceptions Overall: {{ oggetto.interceptions_overall }}</li>
-    <li>Red Cards Overall: {{ oggetto.red_cards_overall }}</li>
-    <li>Yellow Cards Overall: {{ oggetto.yellow_cards_overall }}</li>
-    <li>Shots Overall: {{ oggetto.shots_overall }}</li>
-    <li>Shots on Target Overall: {{ oggetto.shots_on_target_overall }}</li>
-</ul>
+<!DOCTYPE html>
+<html lang="it">
 
-</body> </html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Players App</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+</head>
+
+<body>
+  <center><h1>Players_App</h1></center>
+  <!-- Header -->
+
+  <header>
+    <div class="logo">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo del sito">
+
+    </div>
+
+
+<nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li> <a href="#">Players</a></li>
+        <li><a href="/query">Query</a></li>
+      </ul>
+    </nav>
+  </header>
+
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Full Name</th>
+                    <th>Current Club</th>
+                    <th>Age</th>
+                    <th>Height</th>
+                    <th>Weight</th>
+                    <th>Nationality</th>
+                    <th>Position</th>
+                    <th>Goals Overall</th>
+                    <th>Assists Overall</th>
+                    <th>Clean Sheets Overall</th>
+                    <th>Minutes Played Overall</th>
+                    <th>Interceptions Overall</th>
+                    <th>Red Cards Overall</th>
+                    <th>Yellow Cards Overall</th>
+                    <th>Shots Overall</th>
+                    <th>Shots on Target Overall</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in oggetto %}
+                    <tr>
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.full_name }}</td>
+                        <td>{{ item.current_club }}</td>
+                        <td>{{ item.age }}</td>
+                        <td>{{ item.height }}</td>
+                        <td>{{ item.weight }}</td>
+                        <td>{{ item.nationality }}</td>
+                        <td>{{ item.position }}</td>
+                        <td>{{ item.goals_overall }}</td>
+                        <td>{{ item.assists_overall }}</td>
+                        <td>{{ item.clean_sheets_overall }}</td>
+                        <td>{{ item.minutes_played_overall }}</td>
+                        <td>{{ item.interceptions_overall }}</td>
+                        <td>{{ item.red_cards_overall }}</td>
+                        <td>{{ item.yellow_cards_overall }}</td>
+                        <td>{{ item.shots_overall }}</td>
+                        <td>{{ item.shots_on_target_overall }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+   <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2024 Players App. Tutti i diritti riservati.</p>
+      <ul>
+        <li><a href="#privacy">Privacy</a></li>
+        <li><a href="#terms">Terms of Use</a></li>
+        <li><a href="#contact">Contatti</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Script per il codice React -->
+  <script src="./static/query.js"></script>
+  <script src="./index.html"></script>
+</body>
+
+</html>
