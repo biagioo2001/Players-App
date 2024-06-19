@@ -5,8 +5,19 @@ from query_manager import (
     query_by_nationality_and_club_and_position, query_by_assists_and_clean_sheets,
     query_by_goals_assists_clean_sheets, query_all_players, PlayerNotFoundError
 )
+from bson import ObjectId
+from pymongo import MongoClient
 
 app = Flask(__name__)
+
+# Configurazione del database MongoDB
+mongo_uri = 'mongodb://localhost:27017/Players'
+client = MongoClient(mongo_uri)
+db = client['Giocatori']
+collection = db['Giocatori']
+
+class PlayerNotFoundError(Exception):
+    pass
 
 @app.route('/', methods=['GET'])
 def index():
@@ -31,21 +42,18 @@ def players():
         return render_template('error.html', error=str(e))
 
 
-@app.route('/query_delete', methods=['GET', 'POST'])
+@app.route('/query_delete', methods=['POST'])
 def handle_query_delete():
-    if request.method == 'POST':
-        full_name = request.form['full_name']
-        age = request.form['age']
-        position = request.form['position']
-
-        print(f"Deleting player with full_name: {full_name}, age: {age}, position: {position}")
-
-        try:
-            risultato = query_delete(full_name, age, position)
-            return render_template('risultato_delete.html', full_name=full_name)
-        except PlayerNotFoundError as e:
-            return render_template('player_not_found.html', error=str(e))
-    return render_template('query_delete.html')
+    try:
+        full_name = request.form.get('full_name')
+        age = request.form.get('age')
+        position = request.form.get('position')
+        risultato = query_delete(full_name, age, position)
+        return render_template('query_delete.html', oggetto=risultato)
+    except PlayerNotFoundError as e:
+        return render_template('player_not_found.html', error=str(e))
+    except Exception as e:
+        return render_template('error.html', error=str(e))
 
 
 @app.route('/query_update_age', methods=['POST'])
@@ -61,26 +69,37 @@ def handle_query_update_age():
 @app.route('/query_insert', methods=['POST'])
 def handle_query_insert_giocatore():
     nuovo_giocatore = {
-        "id": request.form.get('id'),
         "full_name": request.form.get('full_name'),
-        "age": request.form.get('age'),
+        "age": int(request.form.get('age')),
+        "birthday": int(request.form.get('birthday')),
+        "league": request.form.get('league'),
+        "season": request.form.get('season'),
         "position": request.form.get('position'),
         "current_club": request.form.get('current_club'),
         "nationality": request.form.get('nationality'),
-        "appearances_overall": request.form.get('appearances_overall'),
-        "goals_overall": request.form.get('goals_overall'),
-        "assists_overall": request.form.get('assists_overall'),
-        "clean_sheets_overall": request.form.get('clean_sheets_overall'),
-        "yellow_cards_overall": request.form.get('yellow_cards_overall'),
-        "red_cards_overall": request.form.get('red_cards_overall'),
-        "minutes_played_overall": request.form.get('minutes_played_overall'),
-        "rating_overall": request.form.get('rating_overall')
+        "appearances_overall": int(request.form.get('appearances_overall')),
+        "goals_overall": int(request.form.get('goals_overall')),
+        "assists_overall": int(request.form.get('assists_overall')),
+        "clean_sheets_overall": int(request.form.get('clean_sheets_overall')),
+        "yellow_cards_overall": int(request.form.get('yellow_cards_overall')),
+        "red_cards_overall": int(request.form.get('red_cards_overall'))
     }
     try:
+        # Check if the player already exists
+        existing_player = collection.find_one({
+            "full_name": nuovo_giocatore["full_name"],
+            "age": nuovo_giocatore["age"],
+            "position": nuovo_giocatore["position"]
+        })
+        if existing_player:
+            raise PlayerNotFoundError("Player already exists")
+
         risultato = query_insert_giocatore(nuovo_giocatore)
         return render_template('query_insert.html', oggetto=risultato)
     except PlayerNotFoundError as e:
         return render_template('player_not_found.html', error=str(e))
+    except Exception as e:
+        return render_template('error.html', error=str(e))
 
 @app.route('/query_update_height_weight', methods=['POST'])
 def handle_query_update_height_weight():

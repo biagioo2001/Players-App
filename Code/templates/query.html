@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="it">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -127,10 +126,8 @@
       color: #fff;
       margin-top: 20px;
     }
-
   </style>
 </head>
-
 <body>
   <div class="container">
     <header>
@@ -149,19 +146,19 @@
     <main>
       <h2>Players Database</h2>
 
- <!-- Query Delete Player -->
-<div class="query-form">
-  <h3>Delete Player by Name, Age, and Position</h3>
-  <form action="/query_delete" method="post">
-    <label for="full_name">Player Name:</label>
-    <input type="text" id="full_name" name="full_name" required>
-    <label for="age">Age:</label>
-    <input type="number" id="age" name="age" required>
-    <label for="position">Position:</label>
-    <input type="text" id="position" name="position" required>
-    <button type="submit">Execute Query</button>
-  </form>
-</div>
+      <!-- Query Delete Player -->
+      <div class="query-form">
+        <h3>Delete Player by Name, Age, and Position</h3>
+        <form action="/query_delete" method="post">
+          <label for="full_name">Player Name:</label>
+          <input type="text" id="full_name" name="full_name" required>
+          <label for="age">Age:</label>
+          <input type="number" id="age" name="age" required>
+          <label for="position">Position:</label>
+          <input type="text" id="position" name="position" required>
+          <button type="submit">Execute Query</button>
+        </form>
+      </div>
 
       <!-- Query Update Player Age -->
       <div class="query-form">
@@ -175,16 +172,14 @@
         </form>
       </div>
 
-      <!-- Query Insert New Player -->
+      <!-- Insert New Player -->
       <div class="query-form">
         <h3>Insert New Player</h3>
         <form action="/query_insert" method="post">
-          <label for="id">ID:</label>
-          <input type="number" id="id" name="id" required>
           <label for="full_name_insert">Player Name:</label>
           <input type="text" id="full_name_insert" name="full_name" required>
-          <label for="age">Age:</label>
-          <input type="number" id="age" name="age" required>
+          <label for="age_insert">Age:</label>
+          <input type="number" id="age_insert" name="age" required>
           <label for="birthday">Birthday (Unix timestamp):</label>
           <input type="number" id="birthday" name="birthday" required>
           <label for="league">League:</label>
@@ -195,8 +190,10 @@
           <input type="text" id="position" name="position" required>
           <label for="current_club">Current Club:</label>
           <input type="text" id="current_club" name="current_club" required>
-          <label for="minutes_played_overall">Minutes Played Overall:</label>
-          <input type="number" id="minutes_played_overall" name="minutes_played_overall" required>
+          <label for="nationality">Nationality:</label>
+          <input type="text" id="nationality" name="nationality" required>
+          <label for="appearances_overall">Appearances Overall:</label>
+          <input type="number" id="appearances_overall" name="appearances_overall" required>
           <label for="goals_overall">Goals Overall:</label>
           <input type="number" id="goals_overall" name="goals_overall" required>
           <label for="assists_overall">Assists Overall:</label>
@@ -207,8 +204,6 @@
           <input type="number" id="yellow_cards_overall" name="yellow_cards_overall" required>
           <label for="red_cards_overall">Red Cards Overall:</label>
           <input type="number" id="red_cards_overall" name="red_cards_overall" required>
-          <label for="nationality">Nationality:</label>
-          <input type="text" id="nationality" name="nationality" required>
           <button type="submit">Execute Query</button>
         </form>
       </div>
@@ -326,5 +321,4 @@
     </footer>
   </div>
 </body>
-
 </html>
