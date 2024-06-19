@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista Giocatori</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+  <h1>Lista Giocatori</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome Completo</th>
+        <th>Età</th>
+        <th>Posizione</th>
+        <th>Club Attuale</th>
+        <th>Nazionalità</th>
+        <th>Presenze</th>
+        <th>Goal</th>
+        <th>Assist</th>
+        <th>Clean Sheets</th>
+        <th>Cartellini Gialli</th>
+        <th>Cartellini Rossi</th>
+        <th>Minuti Giocati</th>
+        <th>Rating</th>
+        <th>Altezza</th>
+        <th>Peso</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for player in players %}
+      <tr>
+        <td>{{ player.id }}</td>
+        <td>{{ player.full_name }}</td>
+        <td>{{ player.age }}</td>
+        <td>{{ player.position }}</td>
+        <td>{{ player.current_club }}</td>
+        <td>{{ player.nationality }}</td>
+        <td>{{ player.appearances_overall }}</td>
+        <td>{{ player.goals_overall }}</td>
+        <td>{{ player.assists_overall }}</td>
+        <td>{{ player.clean_sheets_overall }}</td>
+        <td>{{ player.yellow_cards_overall }}</td>
+        <td>{{ player.red_cards_overall }}</td>
+        <td>{{ player.minutes_played_overall }}</td>
+        <td>{{ player.rating_overall }}</td>
+        <td>{{ player.height }}</td>
+        <td>{{ player.weight }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2024 Players App. Tutti i diritti riservati.</p>
+      <ul>
+        <li><a href="#privacy">Privacy</a></li>
+        <li><a href="#terms">Terms of Use</a></li>
+        <li><a href="#contact">Contatti</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+
+</html>
