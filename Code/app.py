@@ -30,16 +30,23 @@ def players():
     except Exception as e:
         return render_template('error.html', error=str(e))
 
+
 @app.route('/query_delete', methods=['GET', 'POST'])
 def handle_query_delete():
     if request.method == 'POST':
-        id_player = request.form['id_player']
+        full_name = request.form['full_name']
+        age = request.form['age']
+        position = request.form['position']
+
+        print(f"Deleting player with full_name: {full_name}, age: {age}, position: {position}")
+
         try:
-            risultato = query_delete(id_player)
-            return render_template('risultato_delete.html', id_player=id_player)
+            risultato = query_delete(full_name, age, position)
+            return render_template('risultato_delete.html', full_name=full_name)
         except PlayerNotFoundError as e:
             return render_template('player_not_found.html', error=str(e))
     return render_template('query_delete.html')
+
 
 @app.route('/query_update_age', methods=['POST'])
 def handle_query_update_age():

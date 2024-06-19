@@ -10,14 +10,22 @@ collection = db['Giocatori']
 class PlayerNotFoundError(Exception):
     pass
 
-def query_delete(id_player):
+
+def query_delete(full_name, age, position):
     try:
-        query = {"_id": ObjectId(id_player)}
+        query = {
+            "full_name": full_name,
+            "age": int(age),
+            "position": position
+        }
+        print(f"Deleting player with full_name: {full_name}, age: {age}, position: {position}")
+        print(f"Query to MongoDB: {query}")
         risultato = collection.delete_one(query)
         if risultato.deleted_count == 0:
-            raise PlayerNotFoundError("Player not found")
+            raise PlayerNotFoundError(f"Player not found for query: {query}")
         return risultato
     except Exception as e:
+        print(f"Error in query_delete: {str(e)}")
         raise PlayerNotFoundError(str(e))
 
 

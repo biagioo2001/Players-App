@@ -4,57 +4,82 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lista Giocatori</title>
+  <title>Dettagli Giocatori</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <style>
+    /* Stili aggiuntivi specifici per la tabella */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table th,
+    table td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    table th {
+      background-color: #f2f2f2;
+    }
+    .pagination {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .pagination a {
+      display: inline-block;
+      padding: 8px 16px;
+      text-decoration: none;
+      color: #000;
+      border: 1px solid #ddd;
+      margin-right: 5px;
+    }
+    .pagination a.active {
+      background-color: #4caf50;
+      color: white;
+    }
+    .player-details {
+      margin-bottom: 20px;
+    }
+    .search-container {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .search-container input[type=text] {
+      padding: 6px;
+      margin: 8px 0;
+      width: 50%;
+      box-sizing: border-box;
+    }
+  </style>
 </head>
 
 <body>
-  <h1>Lista Giocatori</h1>
+  <h1>Dettagli Giocatori</h1>
 
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Nome Completo</th>
-        <th>Età</th>
-        <th>Posizione</th>
-        <th>Club Attuale</th>
-        <th>Nazionalità</th>
-        <th>Presenze</th>
-        <th>Goal</th>
-        <th>Assist</th>
-        <th>Clean Sheets</th>
-        <th>Cartellini Gialli</th>
-        <th>Cartellini Rossi</th>
-        <th>Minuti Giocati</th>
-        <th>Rating</th>
-        <th>Altezza</th>
-        <th>Peso</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for player in players %}
-      <tr>
-        <td>{{ player.id }}</td>
-        <td>{{ player.full_name }}</td>
-        <td>{{ player.age }}</td>
-        <td>{{ player.position }}</td>
-        <td>{{ player.current_club }}</td>
-        <td>{{ player.nationality }}</td>
-        <td>{{ player.appearances_overall }}</td>
-        <td>{{ player.goals_overall }}</td>
-        <td>{{ player.assists_overall }}</td>
-        <td>{{ player.clean_sheets_overall }}</td>
-        <td>{{ player.yellow_cards_overall }}</td>
-        <td>{{ player.red_cards_overall }}</td>
-        <td>{{ player.minutes_played_overall }}</td>
-        <td>{{ player.rating_overall }}</td>
-        <td>{{ player.height }}</td>
-        <td>{{ player.weight }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <!-- Barra di Ricerca -->
+  <div class="search-container">
+    <input type="text" id="searchInput" onkeyup="filterPlayers()" placeholder="Cerca nella tabella...">
+  </div>
+
+  <div class="player-details">
+    <table id="player-table">
+      <thead>
+        <tr>
+          <th>Attributo</th>
+          <th>Valore</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Dettagli giocatore vengono popolati dinamicamente -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pulsante per cambiare giocatore -->
+  <div class="pagination">
+    <button id="prevBtn" onclick="changePlayer(-1)">Giocatore Precedente</button>
+    <button id="nextBtn" onclick="changePlayer(1)">Prossimo Giocatore</button>
+  </div>
 
   <!-- Footer -->
   <footer>
@@ -67,6 +92,115 @@
       </ul>
     </div>
   </footer>
+
+  <script>
+    // Dati dei giocatori
+    const playersData = [
+      {% for player in players %}
+      {
+        full_name: "{{ player.full_name }}",
+        age: "{{ player.age }}",
+        birthday: "{{ player.birthday }}",
+        birthday_GMT: "{{ player.birthday_GMT }}",
+        league: "{{ player.league }}",
+        season: "{{ player.season }}",
+        position: "{{ player.position }}",
+        current_club: "{{ player.current_club }}",
+        nationality: "{{ player.nationality }}",
+        minutes_played_overall: "{{ player.minutes_played_overall }}",
+        minutes_played_home: "{{ player.minutes_played_home }}",
+        minutes_played_away: "{{ player.minutes_played_away }}",
+        appearances_overall: "{{ player.appearances_overall }}",
+        appearances_home: "{{ player.appearances_home }}",
+        appearances_away: "{{ player.appearances_away }}",
+        goals_overall: "{{ player.goals_overall }}",
+        goals_home: "{{ player.goals_home }}",
+        goals_away: "{{ player.goals_away }}",
+        assists_overall: "{{ player.assists_overall }}",
+        assists_home: "{{ player.assists_home }}",
+        assists_away: "{{ player.assists_away }}",
+        goals_involved_per_90_overall: "{{ player.goals_involved_per_90_overall }}",
+        assists_per_90_overall: "{{ player.assists_per_90_overall }}",
+        goals_per_90_overall: "{{ player.goals_per_90_overall }}",
+        goals_per_90_home: "{{ player.goals_per_90_home }}",
+        goals_per_90_away: "{{ player.goals_per_90_away }}",
+        min_per_goal_overall: "{{ player.min_per_goal_overall }}",
+        conceded_per_90_overall: "{{ player.conceded_per_90_overall }}",
+        min_per_conceded_overall: "{{ player.min_per_conceded_overall }}",
+        min_per_match: "{{ player.min_per_match }}",
+        min_per_card_overall: "{{ player.min_per_card_overall }}",
+        min_per_assist_overall: "{{ player.min_per_assist_overall }}",
+        cards_per_90_overall: "{{ player.cards_per_90_overall }}",
+        rank_in_league_top_attackers: "{{ player.rank_in_league_top_attackers }}",
+        rank_in_league_top_midfielders: "{{ player.rank_in_league_top_midfielders }}",
+        rank_in_league_top_defenders: "{{ player.rank_in_league_top_defenders }}",
+        rank_in_club_top_scorer: "{{ player.rank_in_club_top_scorer }}"
+      },
+      {% endfor %}
+    ];
+
+    let currentPlayerIndex = 0; // Indice del giocatore attualmente visualizzato
+
+    // Funzione per aggiornare i dettagli del giocatore nella tabella
+    function updatePlayerDetails(index) {
+      const player = playersData[index];
+      const tableBody = document.querySelector('#player-table tbody');
+      tableBody.innerHTML = ''; // Pulisce il corpo della tabella
+
+      // Itera attraverso le proprietà del giocatore e crea le righe della tabella
+      for (let prop in player) {
+        if (player.hasOwnProperty(prop)) {
+          const row = document.createElement('tr');
+          const attrCell = document.createElement('td');
+          attrCell.textContent = prop.replace(/_/g, ' '); // Formatta il nome dell'attributo
+          const valCell = document.createElement('td');
+          valCell.textContent = player[prop]; // Valore dell'attributo
+          row.appendChild(attrCell);
+          row.appendChild(valCell);
+          tableBody.appendChild(row);
+        }
+      }
+    }
+
+    // Funzione per cambiare il giocatore visualizzato
+    function changePlayer(delta) {
+      currentPlayerIndex += delta;
+
+      // Controlla i limiti dell'indice del giocatore
+      if (currentPlayerIndex < 0) {
+        currentPlayerIndex = playersData.length - 1;
+      } else if (currentPlayerIndex >= playersData.length) {
+        currentPlayerIndex = 0;
+      }
+
+      updatePlayerDetails(currentPlayerIndex);
+    }
+
+    // Funzione per filtrare i giocatori per nome
+    function filterPlayers() {
+      const input = document.getElementById('searchInput');
+      const filter = input.value.toUpperCase();
+      const table = document.getElementById('player-table');
+      const rows = table.getElementsByTagName('tr');
+
+      // Itera attraverso tutte le righe della tabella e nasconde quelle che non corrispondono alla ricerca
+      for (let i = 0; i < rows.length; i++) {
+        let fullNameCell = rows[i].getElementsByTagName('td')[1];
+        if (fullNameCell) {
+          let fullNameValue = fullNameCell.textContent || fullNameCell.innerText;
+          if (fullNameValue.toUpperCase().indexOf(filter) > -1) {
+            rows[i].style.display = '';
+          } else {
+            rows[i].style.display = 'none';
+          }
+        }
+      }
+    }
+
+    // Inizializza la tabella con il primo giocatore
+    updatePlayerDetails(currentPlayerIndex);
+  </script>
+
 </body>
 
 </html>
