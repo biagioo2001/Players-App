@@ -4,7 +4,7 @@ from flask_pymongo import PyMongo
 app = Flask(__name__)
 
 # Configura la connessione a MongoDB con Flask-PyMongo
-app.config['MONGO_URI'] = 'mongodb://localhost:27017/Players'  # Sostituisci con l'URI del tuo database
+app.config['MONGO_URI'] = 'mongodb://localhost:27017/PremierLegue'  # Sostituisci con l'URI del tuo database
 mongo = PyMongo(app)
 
 # Verifica la connessione a MongoDB

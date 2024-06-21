@@ -1,324 +1,123 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Players App</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-  <style>
-    /* Reset CSS */
-    body, html {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-    }
-
-    /* Page Layout */
-    body {
-      background-color: #f4f4f4;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    header {
-      background-color: #333;
-      color: #fff;
-      padding: 10px 0;
-      text-align: center;
-    }
-
-    header .logo {
-      display: inline-block;
-      margin-right: 20px;
-    }
-
-    header nav ul {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    header nav ul li {
-      display: inline;
-      margin-right: 10px;
-    }
-
-    header nav ul li a {
-      color: #fff;
-      text-decoration: none;
-      padding: 5px 10px;
-      transition: all 0.3s ease;
-    }
-
-    header nav ul li a:hover {
-      background-color: #555;
-    }
-
-    main {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 5px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    main h2 {
-      font-size: 24px;
-      margin-bottom: 20px;
-    }
-
-    .query-form {
-      margin-bottom: 30px;
-      padding: 20px;
-      background-color: #f9f9f9;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    .query-form h3 {
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
-
-    .query-form form {
-      display: flex;
-      flex-wrap: wrap;
-    }
-
-    .query-form label {
-      flex: 1 0 100%;
-      margin-bottom: 5px;
-    }
-
-    .query-form input[type="text"],
-    .query-form input[type="number"] {
-      width: calc(50% - 10px);
-      padding: 8px;
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 16px;
-    }
-
-    .query-form button[type="submit"] {
-      padding: 10px 20px;
-      background-color: #333;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-      transition: background-color 0.3s ease;
-    }
-
-    .query-form button[type="submit"]:hover {
-      background-color: #555;
-    }
-
-    footer {
-      text-align: center;
-      padding: 10px 0;
-      background-color: #333;
-      color: #fff;
-      margin-top: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Query</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        form h2 {
+            margin-top: 0;
+            font-size: 1.5em;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+        form input[type="text"],
+        form input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+        form input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        form input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="logo">
-        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo del sito">
-      </div>
-      <nav>
-        <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="#">Players</a></li>
-          <li><a href="/query">Query</a></li>
-        </ul>
-      </nav>
-    </header>
+    <h1>Query</h1>
 
-    <main>
-      <h2>Players Database</h2>
+    <form action="/query_delete" method="post">
+        <h2>Elimina Giocatore</h2>
+        Nome e Cognome: <input type="text" name="full_name"><br>
+        <input type="submit" value="Invia">
+    </form>
 
-      <!-- Query Delete Player -->
-      <div class="query-form">
-        <h3>Delete Player by Name, Age, and Position</h3>
-        <form action="/query_delete" method="post">
-          <label for="full_name">Player Name:</label>
-          <input type="text" id="full_name" name="full_name" required>
-          <label for="age">Age:</label>
-          <input type="number" id="age" name="age" required>
-          <label for="position">Position:</label>
-          <input type="text" id="position" name="position" required>
-          <button type="submit">Execute Query</button>
-        </form>
-      </div>
+    <form action="/query_update_age" method="post">
+        <h2>Aggiorna Età</h2>
+        Nome e Cognome: <input type="text" name="full_name"><br>
+        Nuova Età: <input type="number" name="new_age"><br>
+        <input type="submit" value="Invia">
+    </form>
 
-      <!-- Query Update Player Age -->
-      <div class="query-form">
-        <h3>Update Player Age</h3>
-        <form action="/query_update_age" method="post">
-          <label for="full_name_update_age">Player Name:</label>
-          <input type="text" id="full_name_update_age" name="full_name" required>
-          <label for="new_age">New Age:</label>
-          <input type="number" id="new_age" name="new_age" required>
-          <button type="submit">Execute Query</button>
-        </form>
-      </div>
+ <form action="/query_insert" method="post">
+    <h2>Inserisci Giocatore</h2>
+    Nome e Cognome: <input type="text" name="full_name"><br>
+    Età: <input type="number" name="age"><br>
+    Data di Nascita: <input type="text" name="birthday"><br>
+    Posizione: <input type="text" name="position"><br>
+    Club Attuale: <input type="text" name="current_club"><br>
+    Nazionalità: <input type="text" name="nationality"><br>
+    Presenze Totali: <input type="number" name="appearances_overall"><br>
+    Gol Totali: <input type="number" name="goals_overall"><br>
+    Assist Totali: <input type="number" name="assists_overall"><br>
+    Clean Sheets Totali: <input type="number" name="clean_sheets_overall"><br>
+    Cartellini Gialli Totali: <input type="number" name="yellow_cards_overall"><br>
+    Cartellini Rossi Totali: <input type="number" name="red_cards_overall"><br>
+    Minuti Giocati Totali: <input type="number" name="minutes_played_overall"><br>
+    Gol Casa: <input type="number" name="goals_home"><br>
+    Gol Trasferta: <input type="number" name="goals_away"><br>
+    Assist Casa: <input type="number" name="assists_home"><br>
+    Assist Trasferta: <input type="number" name="assists_away"><br>
+    Clean Sheets Casa: <input type="number" name="clean_sheets_home"><br>
+    Clean Sheets Trasferta: <input type="number" name="clean_sheets_away"><br>
+    Cartellini Gialli Casa: <input type="number" name="yellow_cards_home"><br>
+    Cartellini Gialli Trasferta: <input type="number" name="yellow_cards_away"><br>
+    Cartellini Rossi Casa: <input type="number" name="red_cards_home"><br>
+    Cartellini Rossi Trasferta: <input type="number" name="red_cards_away"><br>
+    League: <input type="text" name="league"><br>
+    Stagione: <input type="text" name="season"><br>
+    <input type="submit" value="Invia">
+</form>
 
-      <!-- Insert New Player -->
-      <div class="query-form">
-        <h3>Insert New Player</h3>
-        <form action="/query_insert" method="post">
-          <label for="full_name_insert">Player Name:</label>
-          <input type="text" id="full_name_insert" name="full_name" required>
-          <label for="age_insert">Age:</label>
-          <input type="number" id="age_insert" name="age" required>
-          <label for="birthday">Birthday (Unix timestamp):</label>
-          <input type="number" id="birthday" name="birthday" required>
-          <label for="league">League:</label>
-          <input type="text" id="league" name="league" required>
-          <label for="season">Season:</label>
-          <input type="text" id="season" name="season" required>
-          <label for="position">Position:</label>
-          <input type="text" id="position" name="position" required>
-          <label for="current_club">Current Club:</label>
-          <input type="text" id="current_club" name="current_club" required>
-          <label for="nationality">Nationality:</label>
-          <input type="text" id="nationality" name="nationality" required>
-          <label for="appearances_overall">Appearances Overall:</label>
-          <input type="number" id="appearances_overall" name="appearances_overall" required>
-          <label for="goals_overall">Goals Overall:</label>
-          <input type="number" id="goals_overall" name="goals_overall" required>
-          <label for="assists_overall">Assists Overall:</label>
-          <input type="number" id="assists_overall" name="assists_overall" required>
-          <label for="clean_sheets_overall">Clean Sheets Overall:</label>
-          <input type="number" id="clean_sheets_overall" name="clean_sheets_overall" required>
-          <label for="yellow_cards_overall">Yellow Cards Overall:</label>
-          <input type="number" id="yellow_cards_overall" name="yellow_cards_overall" required>
-          <label for="red_cards_overall">Red Cards Overall:</label>
-          <input type="number" id="red_cards_overall" name="red_cards_overall" required>
-          <button type="submit">Execute Query</button>
-        </form>
-      </div>
 
-      <!-- Query Update Player Height and Weight -->
-      <div class="query-form">
-        <h3>Update Player Height and Weight</h3>
-        <form action="/query_update_height_weight" method="post">
-          <label for="full_name_hw">Player Name:</label>
-          <input type="text" id="full_name_hw" name="full_name" required>
-          <label for="new_height">New Height:</label>
-          <input type="number" id="new_height" name="new_height" required>
-          <label for="new_weight">New Weight:</label>
-          <input type="number" id="new_weight" name="new_weight" required>
-          <button type="submit">Execute Query</button>
-        </form>
-      </div>
+    <form action="/query_nationality_club" method="post">
+        <h2>Trova Giocatori per Nazionalità e Club</h2>
+        Nazionalità: <input type="text" name="nationality"><br>
+        Club Attuale: <input type="text" name="current_club"><br>
+        <input type="submit" value="Invia">
+    </form>
 
-      <!-- Query Players by Nationality and Club -->
-      <div class="query-form">
-        <h3>Search Players by Nationality and Club</h3>
-        <form action="/query_by_nationality_and_club" method="post">
-          <label for="nationality_nac">Nationality:</label>
-          <input type="text" id="nationality_nac" name="nationality" required>
-          <label for="current_club_nac">Club:</label>
-          <input type="text" id="current_club_nac" name="current_club" required>
-          <button type="submit">Execute Query</button>
-        </form>
-      </div>
+    <form action="/query_league_season" method="post">
+        <h2>Trova Giocatori per Lega e Stagione</h2>
+        Lega: <input type="text" name="league"><br>
+        Stagione: <input type="text" name="season"><br>
+        <input type="submit" value="Invia">
+    </form>
 
-      <!-- Query Players by Nationality, Club, and Position -->
-      <div class="query-form">
-        <h3>Search Players by Nationality, Club, and Position</h3>
-        <form action="/query_by_nationality_and_club_and_position" method="post">
-          <label for="nationality_nacp">Nationality:</label>
-          <input type="text" id="nationality_nacp" name="nationality" required>
-          <label for="current_club_nacp">Club:</label>
-          <input type="text" id="current_club_nacp" name="current_club" required>
-          <label for="position_nacp">Position:</label>
-          <input type="text" id="position_nacp" name="position" required>
-          <button type="submit">Execute Query</button>
-        </form>
-      </div>
-
-      <!-- Query Players by Assists and Clean Sheets -->
-      <div class="query-form">
-        <h3>Search Players by Assists and Clean Sheets</h3>
-        <form action="/query_by_assists_and_clean_sheets" method="post">
-          <label for="assists_acs">Assists:</label>
-          <input type="number" id="assists_acs" name="assists_overall" step="0.1" required>
-          <label for="clean_sheets_acs">Clean Sheets:</label>
-          <input type="number" id="clean_sheets_acs" name="clean_sheets_overall" step="0.1" required>
-          <button type="submit">Execute Query</button>
-        </form>
-      </div>
-
-      <!-- Query Players by Goals, Assists, and Clean Sheets -->
-      <div class="query-form">
-        <h3>Search Players by Goals, Assists, and Clean Sheets</h3>
-        <form action="/query_by_goals_assists_clean_sheets" method="post">
-          <label for="goals_gacs">Goals:</label>
-          <input type="number" id="goals_gacs" name="goals_overall" step="0.1" required>
-          <label for="assists_gacs">Assists:</label>
-          <input type="number" id="assists_gacs" name="assists_overall" step="0.1" required>
-          <label for="clean_sheets_gacs">Clean Sheets:</label>
-          <input type="number" id="clean_sheets_gacs" name="clean_sheets_overall" step="0.1" required>
-          <button type="submit">Execute Query</button>
-        </form>
-      </div>
-
-      <!-- Query Players by League and Season -->
-      <div class="query-form">
-        <h3>Search Players by League and Season</h3>
-        <form action="/query_by_league_and_season" method="post">
-          <label for="league_ls">League:</label>
-          <input type="text" id="league_ls" name="league" required>
-          <label for="season_ls">Season:</label>
-          <input type="text" id="season_ls" name="season" required>
-          <button type="submit">Execute Query</button>
-        </form>
-      </div>
-
-      <!-- Query Players by Age and Position -->
-      <div class="query-form">
-        <h3>Search Players by Age and Position</h3>
-        <form action="/query_by_age_and_position" method="post">
-          <label for="min_age_ap">Minimum Age:</label>
-          <input type="number" id="min_age_ap" name="min_age" required>
-          <label for="max_age_ap">Maximum Age:</label>
-          <input type="number" id="max_age_ap" name="max_age" required>
-          <label for="position_ap">Position:</label>
-          <input type="text" id="position_ap" name="position" required>
-          <button type="submit">Execute Query</button>
-        </form>
-      </div>
-
-      <!-- Query Players by Age and Nationality -->
-      <div class="query-form">
-        <h3>Search Players by Age and Nationality</h3>
-        <form action="/query_by_age_and_nationality" method="post">
-          <label for="min_age_an">Minimum Age:</label>
-          <input type="number" id="min_age_an" name="min_age" required>
-          <label for="max_age_an">Maximum Age:</label>
-          <input type="number" id="max_age_an" name="max_age" required>
-          <label for="nationality_an">Nationality:</label>
-          <input type="text" id="nationality_an" name="nationality" required>
-          <button type="submit">Execute Query</button>
-        </form>
-      </div>
-
-    </main>
-
-    <footer>
-      <p>&copy; 2024 Players App. All rights reserved.</p>
-    </footer>
-  </div>
+    <form action="/query_age_position" method="post">
+        <h2>Trova Giocatori per Età e Posizione</h2>
+        Età Minima: <input type="number" name="min_age"><br>
+        Età Massima: <input type="number" name="max_age"><br>
+        Posizione: <input type="text" name="position"><br>
+        <input type="submit" value="Invia">
+    </form>
 </body>
 </html>

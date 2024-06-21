@@ -2,19 +2,19 @@ from flask import Flask, render_template, request
 from query_manager import (
     query_delete, query_update_age, query_insert_giocatore,
     query_update_height_weight, query_by_nationality_and_club,
-    query_by_nationality_and_club_and_position, query_by_assists_and_clean_sheets,
-    query_by_goals_assists_clean_sheets, query_all_players, PlayerNotFoundError
+    query_by_league_and_season, query_by_age_and_position, query_all_players,
+    PlayerNotFoundError
 )
-from bson import ObjectId
 from pymongo import MongoClient
 
 app = Flask(__name__)
 
 # Configurazione del database MongoDB
-mongo_uri = 'mongodb://localhost:27017/Players'
+mongo_uri = 'mongodb://localhost:27017/PremierLegue'
 client = MongoClient(mongo_uri)
-db = client['Giocatori']
-collection = db['Giocatori']
+db = client['PremierLegue']
+giocatori_collection = db['Players']
+stagioni_collection = db['Seasons']
 
 class PlayerNotFoundError(Exception):
     pass
@@ -41,7 +41,6 @@ def players():
     except Exception as e:
         return render_template('error.html', error=str(e))
 
-
 @app.route('/query_delete', methods=['POST'])
 def handle_query_delete():
     try:
@@ -54,7 +53,6 @@ def handle_query_delete():
         return render_template('player_not_found.html', error=str(e))
     except Exception as e:
         return render_template('error.html', error=str(e))
-
 
 @app.route('/query_update_age', methods=['POST'])
 def handle_query_update_age():
@@ -72,8 +70,6 @@ def handle_query_insert_giocatore():
         "full_name": request.form.get('full_name'),
         "age": int(request.form.get('age')),
         "birthday": int(request.form.get('birthday')),
-        "league": request.form.get('league'),
-        "season": request.form.get('season'),
         "position": request.form.get('position'),
         "current_club": request.form.get('current_club'),
         "nationality": request.form.get('nationality'),
@@ -84,73 +80,46 @@ def handle_query_insert_giocatore():
         "yellow_cards_overall": int(request.form.get('yellow_cards_overall')),
         "red_cards_overall": int(request.form.get('red_cards_overall'))
     }
+    stagione = {
+        "league": request.form.get('league'),
+        "season": request.form.get('season')
+    }
     try:
-        # Check if the player already exists
-        existing_player = collection.find_one({
-            "full_name": nuovo_giocatore["full_name"],
-            "age": nuovo_giocatore["age"],
-            "position": nuovo_giocatore["position"]
-        })
-        if existing_player:
-            raise PlayerNotFoundError("Player already exists")
-
-        risultato = query_insert_giocatore(nuovo_giocatore)
+        risultato = query_insert_giocatore(nuovo_giocatore, stagione)
         return render_template('query_insert.html', oggetto=risultato)
     except PlayerNotFoundError as e:
         return render_template('player_not_found.html', error=str(e))
     except Exception as e:
         return render_template('error.html', error=str(e))
 
-@app.route('/query_update_height_weight', methods=['POST'])
-def handle_query_update_height_weight():
-    full_name = request.form['full_name']
-    new_height = request.form['new_height']
-    new_weight = request.form['new_weight']
-    try:
-        oggetto = query_update_height_weight(full_name, new_height, new_weight)
-        return render_template('query_update_height_weight.html', oggetto=oggetto)
-    except PlayerNotFoundError as e:
-        return render_template('player_not_found.html', error=str(e))
-
-@app.route('/query_by_nationality_and_club', methods=['POST'])
-def handle_query_by_nationality_and_club():
+@app.route('/query_nationality_club', methods=['POST'])
+def handle_query_nationality_club():
     nationality = request.form['nationality']
     current_club = request.form['current_club']
     try:
-        oggetto = query_by_nationality_and_club(nationality, current_club)
-        return render_template('query_by_nationality_and_club.html', oggetto=oggetto)
+        risultati = query_by_nationality_and_club(nationality, current_club)
+        return render_template('query_results.html', risultati=risultati)
     except PlayerNotFoundError as e:
         return render_template('player_not_found.html', error=str(e))
 
-@app.route('/query_by_nationality_and_club_and_position', methods=['POST'])
-def handle_query_by_nationality_and_club_and_position():
-    nationality = request.form['nationality']
-    current_club = request.form['current_club']
+@app.route('/query_league_season', methods=['POST'])
+def handle_query_league_season():
+    league = request.form['league']
+    season = request.form['season']
+    try:
+        risultati = query_by_league_and_season(league, season)
+        return render_template('query_results.html', risultati=risultati)
+    except PlayerNotFoundError as e:
+        return render_template('player_not_found.html', error=str(e))
+
+@app.route('/query_age_position', methods=['POST'])
+def handle_query_age_position():
+    min_age = int(request.form['min_age'])
+    max_age = int(request.form['max_age'])
     position = request.form['position']
     try:
-        oggetto = query_by_nationality_and_club_and_position(nationality, current_club, position)
-        return render_template('query_by_nationality_and_club_and_position.html', oggetto=oggetto)
-    except PlayerNotFoundError as e:
-        return render_template('player_not_found.html', error=str(e))
-
-@app.route('/query_by_assists_and_clean_sheets', methods=['POST'])
-def handle_query_by_assists_and_clean_sheets():
-    assists_overall = float(request.form['assists_overall'])
-    clean_sheets_overall = float(request.form['clean_sheets_overall'])
-    try:
-        oggetto = query_by_assists_and_clean_sheets(assists_overall, clean_sheets_overall)
-        return render_template('query_by_assists_and_clean_sheets.html', oggetto=oggetto)
-    except PlayerNotFoundError as e:
-        return render_template('player_not_found.html', error=str(e))
-
-@app.route('/query_by_goals_assists_clean_sheets', methods=['POST'])
-def handle_query_by_goals_assists_clean_sheets():
-    goals_overall = float(request.form['goals_overall'])
-    assists_overall = float(request.form['assists_overall'])
-    clean_sheets_overall = float(request.form['clean_sheets_overall'])
-    try:
-        oggetto = query_by_goals_assists_clean_sheets(goals_overall, assists_overall, clean_sheets_overall)
-        return render_template('query_by_goals_assists_clean_sheets.html', oggetto=oggetto)
+        risultati = query_by_age_and_position(min_age, max_age, position)
+        return render_template('query_results.html', risultati=risultati)
     except PlayerNotFoundError as e:
         return render_template('player_not_found.html', error=str(e))
 
