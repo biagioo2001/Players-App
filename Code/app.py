@@ -2,8 +2,7 @@ from flask import Flask, render_template, request
 from query_manager import (
     query_delete, query_update_age, query_insert_giocatore,
     query_update_height_weight, query_by_nationality_and_club,
-    query_by_league_and_season, query_by_age_and_position, query_all_players,
-    PlayerNotFoundError
+    query_by_league_and_season, query_by_age_and_position, query_all_players
 )
 from pymongo import MongoClient
 
@@ -31,10 +30,8 @@ def query():
 def players():
     try:
         players = query_all_players()
-
         if not players:
             raise PlayerNotFoundError("Players not found")
-
         return render_template('Players.html', players=players)
     except PlayerNotFoundError as e:
         return render_template('player_not_found.html', error=str(e))
@@ -45,9 +42,9 @@ def players():
 def handle_query_delete():
     try:
         full_name = request.form.get('full_name')
-        age = request.form.get('age')
-        position = request.form.get('position')
-        risultato = query_delete(full_name, age, position)
+        risultato = query_delete(full_name)
+        if risultato is None:
+            raise PlayerNotFoundError("Player not found")
         return render_template('query_delete.html', oggetto=risultato)
     except PlayerNotFoundError as e:
         return render_template('player_not_found.html', error=str(e))
@@ -60,35 +57,81 @@ def handle_query_update_age():
     new_age = request.form['new_age']
     try:
         oggetto = query_update_age(full_name, new_age)
+        if oggetto is None:
+            raise PlayerNotFoundError("Player not found")
         return render_template('query_update_age.html', oggetto=oggetto)
     except PlayerNotFoundError as e:
         return render_template('player_not_found.html', error=str(e))
+
+def safe_int(value):
+    try:
+        return int(value) if value is not None else None
+    except ValueError:
+        raise BadRequest(f"Invalid integer value: {value}")
+
+def safe_float(value):
+    try:
+        return float(value) if value is not None else None
+    except ValueError:
+        raise BadRequest(f"Invalid float value: {value}")
 
 @app.route('/query_insert', methods=['POST'])
 def handle_query_insert_giocatore():
     nuovo_giocatore = {
         "full_name": request.form.get('full_name'),
-        "age": int(request.form.get('age')),
-        "birthday": int(request.form.get('birthday')),
+        "age": safe_int(request.form.get('age')),
+        "birthday": request.form.get('birthday'),
+        "birthday_GMT": request.form.get('birthday_GMT'),
         "position": request.form.get('position'),
         "current_club": request.form.get('current_club'),
         "nationality": request.form.get('nationality'),
-        "appearances_overall": int(request.form.get('appearances_overall')),
-        "goals_overall": int(request.form.get('goals_overall')),
-        "assists_overall": int(request.form.get('assists_overall')),
-        "clean_sheets_overall": int(request.form.get('clean_sheets_overall')),
-        "yellow_cards_overall": int(request.form.get('yellow_cards_overall')),
-        "red_cards_overall": int(request.form.get('red_cards_overall'))
+        "player_id": request.form.get('player_id')
     }
     stagione = {
         "league": request.form.get('league'),
-        "season": request.form.get('season')
+        "season": request.form.get('season'),
+        "minutes_played_overall": safe_int(request.form.get('minutes_played_overall')),
+        "minutes_played_home": safe_int(request.form.get('minutes_played_home')),
+        "minutes_played_away": safe_int(request.form.get('minutes_played_away')),
+        "appearances_overall": safe_int(request.form.get('appearances_overall')),
+        "appearances_home": safe_int(request.form.get('appearances_home')),
+        "appearances_away": safe_int(request.form.get('appearances_away')),
+        "goals_overall": safe_int(request.form.get('goals_overall')),
+        "goals_home": safe_int(request.form.get('goals_home')),
+        "goals_away": safe_int(request.form.get('goals_away')),
+        "assists_overall": safe_int(request.form.get('assists_overall')),
+        "assists_home": safe_int(request.form.get('assists_home')),
+        "assists_away": safe_int(request.form.get('assists_away')),
+        "clean_sheets_overall": safe_int(request.form.get('clean_sheets_overall')),
+        "clean_sheets_home": safe_int(request.form.get('clean_sheets_home')),
+        "clean_sheets_away": safe_int(request.form.get('clean_sheets_away')),
+        "conceded_overall": safe_int(request.form.get('conceded_overall')),
+        "conceded_home": safe_int(request.form.get('conceded_home')),
+        "conceded_away": safe_int(request.form.get('conceded_away')),
+        "yellow_cards_overall": safe_int(request.form.get('yellow_cards_overall')),
+        "red_cards_overall": safe_int(request.form.get('red_cards_overall')),
+        "goals_involved_per_90_overall": safe_float(request.form.get('goals_involved_per_90_overall')),
+        "assists_per_90_overall": safe_float(request.form.get('assists_per_90_overall')),
+        "conceded_per_90_overall": safe_float(request.form.get('conceded_per_90_overall')),
+        "min_per_conceded_overall": safe_float(request.form.get('min_per_conceded_overall')),
+        "min_per_match": safe_float(request.form.get('min_per_match')),
+        "min_per_card_overall": safe_float(request.form.get('min_per_card_overall')),
+        "min_per_assist_overall": safe_float(request.form.get('min_per_assist_overall')),
+        "cards_per_90_overall": safe_float(request.form.get('cards_per_90_overall')),
+        "rank_in_league_top_attackers": request.form.get('rank_in_league_top_attackers'),
+        "rank_in_league_top_midfielders": request.form.get('rank_in_league_top_midfielders'),
+        "rank_in_league_top_defenders": request.form.get('rank_in_league_top_defenders'),
+        "rank_in_club_top_scorer": request.form.get('rank_in_club_top_scorer'),
+        "additional_info": request.form.get('additional_info')
     }
     try:
+        # Assuming query_insert_giocatore and PlayerNotFoundError are defined elsewhere
         risultato = query_insert_giocatore(nuovo_giocatore, stagione)
         return render_template('query_insert.html', oggetto=risultato)
     except PlayerNotFoundError as e:
         return render_template('player_not_found.html', error=str(e))
+    except BadRequest as e:
+        return render_template('error.html', error=str(e))
     except Exception as e:
         return render_template('error.html', error=str(e))
 
