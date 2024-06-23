@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Query Update Age</title>
+    <title>Aggiorna Età Giocatore</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -37,82 +37,180 @@
 </head>
 <body>
     <div>
-        <a href="http://127.0.0.1:5000/query">NBA QUERY</a>
+        <a href="http://127.0.0.1:5000/query">QUERY</a>
     </div>
-    <h1>Query Update Age</h1>
+    <h1>Aggiorna Età Giocatore</h1>
     <table>
         <tr>
-            <th>Attribute</th>
-            <th>Value</th>
+            <th>Attributo</th>
+            <th>Valore</th>
         </tr>
         <tr>
             <td>Id</td>
-            <td>{{ oggetto.id }}</td>
+            <td>{{ oggetto.player_id }}</td>
         </tr>
         <tr>
-            <td>Full Name</td>
+            <td>Nome Completo</td>
             <td>{{ oggetto.full_name }}</td>
         </tr>
         <tr>
-            <td>Current Club</td>
-            <td>{{ oggetto.current_club }}</td>
-        </tr>
-        <tr>
-            <td>Age</td>
+            <td>Età</td>
             <td>{{ oggetto.age }}</td>
         </tr>
         <tr>
-            <td>Height</td>
-            <td>{{ oggetto.height }}</td>
+            <td>Data di Nascita</td>
+            <td>{{ oggetto.birthday }}</td>
         </tr>
         <tr>
-            <td>Weight</td>
-            <td>{{ oggetto.weight }}</td>
-        </tr>
-        <tr>
-            <td>Nationality</td>
-            <td>{{ oggetto.nationality }}</td>
-        </tr>
-        <tr>
-            <td>Position</td>
+            <td>Posizione</td>
             <td>{{ oggetto.position }}</td>
         </tr>
         <tr>
-            <td>Goals Overall</td>
-            <td>{{ oggetto.goals_overall }}</td>
+            <td>Club Attuale</td>
+            <td>{{ oggetto.current_club }}</td>
         </tr>
         <tr>
-            <td>Assists Overall</td>
-            <td>{{ oggetto.assists_overall }}</td>
+            <td>Nationalità</td>
+            <td>{{ oggetto.nationality }}</td>
+        </tr>
+        <!-- Dati delle stagioni -->
+        {% for stagione in oggetto.stagioni %}
+        <tr>
+            <th colspan="2">Stagione: {{ stagione.season }} - Lega: {{ stagione.league }}</th>
         </tr>
         <tr>
-            <td>Clean Sheets Overall</td>
-            <td>{{ oggetto.clean_sheets_overall }}</td>
+            <td>Minuti Giocati Totali</td>
+            <td>{{ stagione.minutes_played_overall }}</td>
         </tr>
         <tr>
-            <td>Minutes Played Overall</td>
-            <td>{{ oggetto.minutes_played_overall }}</td>
+            <td>Minuti Giocati in Casa</td>
+            <td>{{ stagione.minutes_played_home }}</td>
         </tr>
         <tr>
-            <td>Interceptions Overall</td>
-            <td>{{ oggetto.interceptions_overall }}</td>
+            <td>Minuti Giocati Fuori Casa</td>
+            <td>{{ stagione.minutes_played_away }}</td>
         </tr>
         <tr>
-            <td>Red Cards Overall</td>
-            <td>{{ oggetto.red_cards_overall }}</td>
+            <td>Presenze Totali</td>
+            <td>{{ stagione.appearances_overall }}</td>
         </tr>
         <tr>
-            <td>Yellow Cards Overall</td>
-            <td>{{ oggetto.yellow_cards_overall }}</td>
+            <td>Presenze in Casa</td>
+            <td>{{ stagione.appearances_home }}</td>
         </tr>
         <tr>
-            <td>Shots Overall</td>
-            <td>{{ oggetto.shots_overall }}</td>
+            <td>Presenze Fuori Casa</td>
+            <td>{{ stagione.appearances_away }}</td>
         </tr>
         <tr>
-            <td>Shots on Target Overall</td>
-            <td>{{ oggetto.shots_on_target_overall }}</td>
+            <td>Goal Totali</td>
+            <td>{{ stagione.goals_overall }}</td>
         </tr>
+        <tr>
+            <td>Goal in Casa</td>
+            <td>{{ stagione.goals_home }}</td>
+        </tr>
+        <tr>
+            <td>Goal Fuori Casa</td>
+            <td>{{ stagione.goals_away }}</td>
+        </tr>
+        <tr>
+            <td>Assist Totali</td>
+            <td>{{ stagione.assists_overall }}</td>
+        </tr>
+        <tr>
+            <td>Assist in Casa</td>
+            <td>{{ stagione.assists_home }}</td>
+        </tr>
+        <tr>
+            <td>Assist Fuori Casa</td>
+            <td>{{ stagione.assists_away }}</td>
+        </tr>
+        <tr>
+            <td>Clean Sheets Totali</td>
+            <td>{{ stagione.clean_sheets_overall }}</td>
+        </tr>
+        <tr>
+            <td>Clean Sheets in Casa</td>
+            <td>{{ stagione.clean_sheets_home }}</td>
+        </tr>
+        <tr>
+            <td>Clean Sheets Fuori Casa</td>
+            <td>{{ stagione.clean_sheets_away }}</td>
+        </tr>
+        <tr>
+            <td>Goal Concessi Totali</td>
+            <td>{{ stagione.conceded_overall }}</td>
+        </tr>
+        <tr>
+            <td>Goal Concessi in Casa</td>
+            <td>{{ stagione.conceded_home }}</td>
+        </tr>
+        <tr>
+            <td>Goal Concessi Fuori Casa</td>
+            <td>{{ stagione.conceded_away }}</td>
+        </tr>
+        <tr>
+            <td>Cartellini Gialli Totali</td>
+            <td>{{ stagione.yellow_cards_overall }}</td>
+        </tr>
+        <tr>
+            <td>Cartellini Rossi Totali</td>
+            <td>{{ stagione.red_cards_overall }}</td>
+        </tr>
+        <tr>
+            <td>Goal per 90 Minuti Totali</td>
+            <td>{{ stagione.goals_involved_per_90_overall }}</td>
+        </tr>
+        <tr>
+            <td>Assist per 90 Minuti Totali</td>
+            <td>{{ stagione.assists_per_90_overall }}</td>
+        </tr>
+        <tr>
+            <td>Goal Concessi per 90 Minuti Totali</td>
+            <td>{{ stagione.conceded_per_90_overall }}</td>
+        </tr>
+        <tr>
+            <td>Minuti per Goal Concesso Totali</td>
+            <td>{{ stagione.min_per_conceded_overall }}</td>
+        </tr>
+        <tr>
+            <td>Minuti per Partita</td>
+            <td>{{ stagione.min_per_match }}</td>
+        </tr>
+        <tr>
+            <td>Minuti per Cartellino Totali</td>
+            <td>{{ stagione.min_per_card_overall }}</td>
+        </tr>
+        <tr>
+            <td>Minuti per Assist Totali</td>
+            <td>{{ stagione.min_per_assist_overall }}</td>
+        </tr>
+        <tr>
+            <td>Cartellini per 90 Minuti Totali</td>
+            <td>{{ stagione.cards_per_90_overall }}</td>
+        </tr>
+        <tr>
+            <td>Classifica Attaccanti Lega</td>
+            <td>{{ stagione.rank_in_league_top_attackers }}</td>
+        </tr>
+        <tr>
+            <td>Classifica Centrocampisti Lega</td>
+            <td>{{ stagione.rank_in_league_top_midfielders }}</td>
+        </tr>
+        <tr>
+            <td>Classifica Difensori Lega</td>
+            <td>{{ stagione.rank_in_league_top_defenders }}</td>
+        </tr>
+        <tr>
+            <td>Classifica Marcatori Club</td>
+            <td>{{ stagione.rank_in_club_top_scorer }}</td>
+        </tr>
+        <tr>
+            <td>Informazioni Aggiuntive</td>
+            <td>{{ stagione.additional_info }}</td>
+        </tr>
+        {% endfor %}
     </table>
 </body>
 </html>
