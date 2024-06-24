@@ -4,6 +4,8 @@ from query_manager import (
     query_update_height_weight, query_by_nationality_and_position,
     query_by_min_and_gols, query_by_age_and_position, query_all_players
 )
+from query_manager import query_top_scorers, query_top_assists, query_minutes_played_data, query_yellow_red_cards_data
+
 from pymongo import MongoClient
 
 app = Flask(__name__)
@@ -202,6 +204,21 @@ def handle_query_age_position():
 
     except Exception as e:
         error_msg = f"Errore imprevisto: {str(e)}"
+        return render_template('error.html', error=error_msg)
+
+
+@app.route('/statistics')
+def statistics():
+    try:
+        top_scorers = query_top_scorers()
+        top_assists = query_top_assists()
+        minutes_data = query_minutes_played_data()
+        yellow_red_cards_data = query_yellow_red_cards_data()
+
+        return render_template('statistics.html', top_scorers=top_scorers, top_assists=top_assists, minutes_data=minutes_data, yellow_red_cards_data=yellow_red_cards_data)
+
+    except Exception as e:
+        error_msg = f"Errore durante il recupero delle statistiche: {str(e)}"
         return render_template('error.html', error=error_msg)
 
 

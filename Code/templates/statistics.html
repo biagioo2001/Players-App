@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistiche</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Stili CSS Personalizzati -->
+    <style>
+        body {
+            background-color: #f8f9fa; /* Colore di sfondo generale */
+        }
+
+        .card {
+            background-color: #fff; /* Sfondo delle card */
+            border: 1px solid rgba(0, 0, 0, 0.125); /* Bordo delle card */
+        }
+
+        .card-header.top-scorers {
+            background-color: #007bff; /* Colore di sfondo per la classifica marcatori */
+            color: #fff; /* Colore del testo */
+            border-color: #007bff; /* Colore del bordo */
+        }
+
+        .card-header.top-assists {
+            background-color: #28a745; /* Colore di sfondo per la classifica assist */
+            color: #fff; /* Colore del testo */
+            border-color: #28a745; /* Colore del bordo */
+        }
+
+        .card-header h2 {
+            margin-bottom: 0; /* Rimuove il margine inferiore dal titolo */
+        }
+
+        .table-striped {
+            background-color: #fff; /* Sfondo delle tabelle */
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(0, 0, 0, 0.05); /* Sfondo alternato per le righe delle tabelle */
+        }
+
+        /* Stile aggiuntivo per il canvas dei grafici */
+        .chart-canvas {
+            max-width: 100%; /* Massima larghezza del canvas */
+            margin-bottom: 1rem; /* Spazio inferiore tra i grafici */
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Statistiche</h1>
+
+        <!-- Classifica marcatori -->
+        <div class="card mt-4">
+            <div class="card-header top-scorers">
+                <h2>Classifica Marcatori</h2>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Posizione</th>
+                            <th>Nome Giocatore</th>
+                            <th>Club</th>
+                            <th>Gol Totali</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for player in top_scorers %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ player.full_name }}</td>
+                            <td>{{ player.club }}</td>
+                            <td>{{ player.goals_overall }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Classifica assist -->
+        <div class="card mt-4">
+            <div class="card-header top-assists">
+                <h2>Classifica Assist</h2>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Posizione</th>
+                            <th>Nome Giocatore</th>
+                            <th>Club</th>
+                            <th>Assist Totali</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for player in top_assists %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ player.full_name }}</td>
+                            <td>{{ player.club }}</td>
+                            <td>{{ player.assists_overall }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Grafico per minutaggio totale -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h2>Grafico Minutaggio Totale</h2>
+            </div>
+            <div class="card-body">
+                <canvas id="minutesPlayedOverallChart" class="chart-canvas" width="400" height="200"></canvas>
+            </div>
+        </div>
+
+        <!-- Sezione per grafici minutaggio casa e trasferta -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h2>Grafici Minutaggio Casa e Trasferta</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <canvas id="minutesPlayedHomeChart" class="chart-canvas" width="400" height="300"></canvas>
+                    </div>
+                    <div class="col-md-6">
+                        <canvas id="minutesPlayedAwayChart" class="chart-canvas" width="400" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sezione per cartellini gialli e rossi -->
+        <div class="card mt-4">
+            <div class="card-header bg-warning text-white">
+                <h2>Cartellini Gialli e Rossi per Stagione</h2>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Posizione</th>
+                                <th scope="col">Lega</th>
+                                <th scope="col">Stagione</th>
+                                <th scope="col">Cartellini Gialli</th>
+                                <th scope="col">Cartellini Rossi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cards_data in yellow_red_cards_data %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ cards_data.league }}</td>
+                                <td>{{ cards_data.season }}</td>
+                                <td>{{ cards_data.total_yellow_cards }}</td>
+                                <td>{{ cards_data.total_red_cards }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script per generare i grafici -->
+    <script>
+        // Dati per i grafici
+        var minutesData = {{ minutes_data|tojson }};
+
+        // Grafico per minutaggio totale
+        var ctx1 = document.getElementById('minutesPlayedOverallChart').getContext('2d');
+        var minutesPlayedOverallChart = new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: minutesData.map(function(data) { return data.season; }),
+                datasets: [{
+                    label: 'Minuti Giocati Totali',
+                    data: minutesData.map(function(data) { return data.minutes_played_overall; }),
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Grafico per minutaggio casa
+        var ctx2 = document.getElementById('minutesPlayedHomeChart').getContext('2d');
+        var minutesPlayedHomeChart = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: minutesData.map(function(data) { return data.season; }),
+                datasets: [{
+                    label: 'Minuti Giocati Casa',
+                    data: minutesData.map(function(data) { return data.minutes_played_home; }),
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Grafico per minutaggio trasferta
+        var ctx3 = document.getElementById('minutesPlayedAwayChart').getContext('2d');
+        var minutesPlayedAwayChart = new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: minutesData.map(function(data) { return data.season; }),
+                datasets: [{
+                    label: 'Minuti Giocati Trasferta',
+                    data: minutesData.map(function(data) { return data.minutes_played_away; }),
+                    backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

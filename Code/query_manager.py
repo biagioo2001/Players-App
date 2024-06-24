@@ -172,4 +172,190 @@ def query_by_age_and_position(min_age, max_age, position):
         return []
 
 
+def query_top_scorers():
+    try:
+        pipeline = [
+            {
+                "$lookup": {
+                    "from": "Seasons",
+                    "localField": "player_id",
+                    "foreignField": "player_id",
+                    "as": "seasons_data"
+                }
+            },
+            {
+                "$unwind": "$seasons_data"
+            },
+            {
+                "$sort": {"seasons_data.goals_overall": -1}
+            },
+            {
+                "$limit": 10
+            },
+            {
+                "$lookup": {
+                    "from": "Players",
+                    "localField": "player_id",
+                    "foreignField": "player_id",
+                    "as": "player_data"
+                }
+            },
+            {
+                "$unwind": "$player_data"
+            },
+            {
+                "$project": {
+                    "_id": 0,
+                    "full_name": 1,
+                    "club": "$player_data.Current Club",
+                    "goals_overall": "$seasons_data.goals_overall"
+                }
+            }
+        ]
+        top_scorers = list(giocatori_collection.aggregate(pipeline))
+
+        # Stampa il risultato ottenuto
+        print("Risultato di query_top_scorers():", top_scorers)
+
+        return top_scorers
+
+    except Exception as e:
+        print(f"Errore durante la query_top_scorers: {str(e)}")
+        raise e
+
+
+def query_top_assists():
+    try:
+        pipeline = [
+            {
+                "$lookup": {
+                    "from": "Seasons",
+                    "localField": "player_id",
+                    "foreignField": "player_id",
+                    "as": "seasons_data"
+                }
+            },
+            {
+                "$unwind": "$seasons_data"
+            },
+            {
+                "$sort": {"seasons_data.assists_overall": -1}
+            },
+            {
+                "$limit": 10
+            },
+            {
+                "$lookup": {
+                    "from": "Players",
+                    "localField": "player_id",
+                    "foreignField": "player_id",
+                    "as": "player_data"
+                }
+            },
+            {
+                "$unwind": "$player_data"
+            },
+            {
+                "$project": {
+                    "_id": 0,
+                    "full_name": 1,
+                    "club": "$player_data.Current Club",
+                    "assists_overall": "$seasons_data.assists_overall"
+                }
+            }
+        ]
+        top_assists = list(giocatori_collection.aggregate(pipeline))
+
+        # Stampa il risultato ottenuto
+        print("Risultato di query_top_assists():", top_assists)
+
+        return top_assists
+
+    except Exception as e:
+        print(f"Errore durante la query_top_assists: {str(e)}")
+        raise e
+
+
+
+
+def query_minutes_played_data():
+    try:
+        pipeline = [
+            {
+                "$lookup": {
+                    "from": "Seasons",
+                    "localField": "player_id",
+                    "foreignField": "player_id",
+                    "as": "seasons_data"
+                }
+            },
+            {
+                "$unwind": "$seasons_data"
+            },
+            {
+                "$project": {
+                    "_id": 0,
+                    "full_name": 1,
+                    "season": "$seasons_data.season",
+                    "minutes_played_overall": "$seasons_data.minutes_played_overall",
+                    "minutes_played_home": "$seasons_data.minutes_played_home",
+                    "minutes_played_away": "$seasons_data.minutes_played_away"
+                }
+            }
+        ]
+
+        players_minutes = list(giocatori_collection.aggregate(pipeline))
+
+        return players_minutes
+
+    except Exception as e:
+        print(f"Errore durante la query_minutes_played_data: {str(e)}")
+        raise e
+
+
+def query_yellow_red_cards_data():
+    try:
+        pipeline = [
+            {
+                "$lookup": {
+                    "from": "Seasons",
+                    "localField": "player_id",
+                    "foreignField": "player_id",
+                    "as": "seasons_data"
+                }
+            },
+            {
+                "$unwind": "$seasons_data"
+            },
+            {
+                "$group": {
+                    "_id": {
+                        "league": "$seasons_data.league",
+                        "season": "$seasons_data.season"
+                    },
+                    "total_yellow_cards": {"$sum": "$seasons_data.yellow_cards_overall"},
+                    "total_red_cards": {"$sum": "$seasons_data.red_cards_overall"}
+                }
+            },
+            {
+                "$project": {
+                    "_id": 0,
+                    "league": "$_id.league",
+                    "season": "$_id.season",
+                    "total_yellow_cards": 1,
+                    "total_red_cards": 1
+                }
+            }
+        ]
+
+        yellow_red_cards_data = list(giocatori_collection.aggregate(pipeline))
+
+        # Stampa il risultato ottenuto
+        print("Risultato di query_yellow_red_cards_data():", yellow_red_cards_data)
+
+        return yellow_red_cards_data
+
+    except Exception as e:
+        print(f"Errore durante la query_yellow_red_cards_data: {str(e)}")
+        raise e
 
