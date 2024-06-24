@@ -9,6 +9,20 @@ giocatori_collection = db['Players']
 stagioni_collection = db['Seasons']
 
 
+
+def safe_int(value):
+    try:
+        return int(value)
+    except (ValueError, TypeError):
+        return 0
+
+def safe_float(value):
+    try:
+        return float(value)
+    except (ValueError, TypeError):
+        return 0.0
+
+
 def query_delete(full_name):
     query = {"full_name": full_name}
     player = giocatori_collection.find_one(query)
@@ -93,38 +107,69 @@ def query_insert_giocatore(nuovo_giocatore, stagione):
     return giocatore_inserito
 
 
-def query_by_nationality_and_club(nationality, current_club):
+def query_by_nationality_and_position(nationality, position):
     query = {
         "nationality": nationality,
-        "current_club": current_club
+        "position": position
     }
-    risultati = list(giocatori_collection.find(query))
-    return risultati
+    giocatori = list(giocatori_collection.find(query))
+    for giocatore in giocatori:
+        stagioni = list(stagioni_collection.find({"player_id": giocatore["player_id"]}))
+        giocatore["stagioni"] = stagioni
+    return giocatori
 
 
-def query_by_league_and_season(league, season):
-    stagione = stagioni_collection.find_one({"league": league, "season": season})
-    if stagione is None:
-        return None
+def query_by_min_and_gols(min_minutes, min_goals):
+    risultati = []
 
-    stagione_id = stagione["_id"]
-    risultati = list(giocatori_collection.find({"stagione_id": stagione_id}))
+    # Trova tutte le stagioni che soddisfano i criteri di gol e minutaggio
+    stagioni = stagioni_collection.find({
+        "minutes_played_overall": {"$gt": min_minutes},
+        "goals_overall": {"$gt": min_goals}
+    })
+
+    # Itera su tutte le stagioni trovate
+    for stagione in stagioni:
+        player_id = stagione.get("player_id")
+        if player_id:
+            # Trova il giocatore corrispondente utilizzando player_id
+            giocatore = giocatori_collection.find_one({"player_id": player_id})
+            if giocatore:
+                # Aggiungi le informazioni delle stagioni al giocatore
+                stagioni_giocatore = list(stagioni_collection.find({"player_id": player_id}))
+                giocatore["stagioni"] = stagioni_giocatore
+                risultati.append(giocatore)
+
     return risultati
 
 
 def query_by_age_and_position(min_age, max_age, position):
-    query = {
-        "age": {"$gte": min_age, "$lte": max_age},
-        "position": position
-    }
-    risultati = list(giocatori_collection.find(query))
-    return risultati
+    try:
+        query = {
+            "age": {"$gte": min_age, "$lte": max_age},
+            "position": position
+        }
+
+        risultati = []
+
+        # Trova i giocatori che soddisfano i criteri
+        giocatori = giocatori_collection.find(query)
+
+        for giocatore in giocatori:
+            # Recupera le stagioni associate al giocatore
+            player_id = giocatore.get("player_id")
+            stagioni = []
+            if player_id:
+                stagioni = list(stagioni_collection.find({"player_id": player_id}))
+                giocatore["stagioni"] = stagioni
+            risultati.append(giocatore)
+
+        return risultati
+
+    except Exception as e:
+        # Gestione generale delle eccezioni
+        print(f"Errore nella query_by_age_and_position: {str(e)}")
+        return []
 
 
-def query_by_age_and_nationality(min_age, max_age, nationality):
-    query = {
-        "age": {"$gte": min_age, "$lte": max_age},
-        "nationality": nationality
-    }
-    risultati = list(giocatori_collection.find(query))
-    return risultati
+

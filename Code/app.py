@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request
 from query_manager import (
     query_delete, query_update_age, query_insert_giocatore,
-    query_update_height_weight, query_by_nationality_and_club,
-    query_by_league_and_season, query_by_age_and_position, query_all_players
+    query_update_height_weight, query_by_nationality_and_position,
+    query_by_min_and_gols, query_by_age_and_position, query_all_players
 )
 from pymongo import MongoClient
 
@@ -136,36 +136,74 @@ def handle_query_insert_giocatore():
     except Exception as e:
         return render_template('error.html', error=str(e))
 
-@app.route('/query_nationality_club', methods=['POST'])
-def handle_query_nationality_club():
-    nationality = request.form['nationality']
-    current_club = request.form['current_club']
-    try:
-        risultati = query_by_nationality_and_club(nationality, current_club)
-        return render_template('query_results.html', risultati=risultati)
-    except PlayerNotFoundError as e:
-        return render_template('player_not_found.html', error=str(e))
 
-@app.route('/query_league_season', methods=['POST'])
-def handle_query_league_season():
-    league = request.form['league']
-    season = request.form['season']
+@app.route('/query_nationality_position', methods=['POST'])
+def handle_query_nationality_position():
+    nationality = request.form['nationality']
+    position = request.form['position']
     try:
-        risultati = query_by_league_and_season(league, season)
-        return render_template('query_results.html', risultati=risultati)
+        risultati = query_by_nationality_and_position(nationality, position)
+        return render_template('Players.html', players=risultati)
     except PlayerNotFoundError as e:
         return render_template('player_not_found.html', error=str(e))
+    except Exception as e:
+        return render_template('error.html', error=str(e))
+
+
+@app.route('/query_by_min_and_gols', methods=['POST'])
+def handle_query_by_min_and_gols():
+    try:
+        # Ottieni i valori di min e goals dal form
+        min_minutes = int(request.form['min'])
+        min_goals = int(request.form['goals'])
+
+        # Esegui la query per ottenere i risultati
+        risultati = query_by_min_and_gols(min_minutes, min_goals)
+
+        # Ritorna i risultati alla pagina Players.html
+        return render_template('Players.html', players=risultati)
+
+    except ValueError:
+        # Gestione degli errori nel caso di input non validi (es. non numerici)
+        error_msg = 'Invalid input, please enter numbers.'
+        return render_template('error.html', error=error_msg)
+
+    except Exception as e:
+        # Gestione di altre eccezioni non previste
+        error_msg = str(e)
+        return render_template('error.html', error=error_msg)
+
 
 @app.route('/query_age_position', methods=['POST'])
 def handle_query_age_position():
-    min_age = int(request.form['min_age'])
-    max_age = int(request.form['max_age'])
-    position = request.form['position']
     try:
+        min_age = int(request.form['min_age'])
+        max_age = int(request.form['max_age'])
+        position = request.form['position']
+
+        # Assicurati che min_age sia minore di max_age
+        if min_age > max_age:
+            raise ValueError("L'età minima non può essere maggiore dell'età massima.")
+
+        # Esegui la query per ottenere i giocatori con l'età e la posizione specificate
         risultati = query_by_age_and_position(min_age, max_age, position)
-        return render_template('query_results.html', risultati=risultati)
+
+        if not risultati:
+            raise PlayerNotFoundError("Nessun giocatore trovato con i criteri specificati.")
+
+        return render_template('Players.html', players=risultati)
+
+    except ValueError as ve:
+        error_msg = f"Errore: {str(ve)}"
+        return render_template('error.html', error=error_msg)
+
     except PlayerNotFoundError as e:
         return render_template('player_not_found.html', error=str(e))
+
+    except Exception as e:
+        error_msg = f"Errore imprevisto: {str(e)}"
+        return render_template('error.html', error=error_msg)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

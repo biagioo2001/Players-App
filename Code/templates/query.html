@@ -98,19 +98,20 @@
 </form>
 
 
-    <form action="/query_nationality_club" method="post">
-        <h2>Trova Giocatori per Nazionalità e Club</h2>
+    <form action="/query_nationality_position" method="post">
+        <h2>Trova Giocatori per Nazionalità e Ruolo</h2>
         Nazionalità: <input type="text" name="nationality"><br>
-        Club Attuale: <input type="text" name="current_club"><br>
+        Ruolo: <input type="text" name="position"><br>
         <input type="submit" value="Invia">
     </form>
 
-    <form action="/query_league_season" method="post">
-        <h2>Trova Giocatori per Lega e Stagione</h2>
-        Lega: <input type="text" name="league"><br>
-        Stagione: <input type="text" name="season"><br>
-        <input type="submit" value="Invia">
+    <form action="/query_by_min_and_gols" method="post">
+        <h2>Trova Giocatori per Minutaggio Partita e Gol Totali</h2>
+        Minutaggio minimo: <input type="text" name="min"><br>
+        Gol minimi: <input type="text" name="goals"><br>
+        <input type="submit" value="Cerca">
     </form>
+
 
     <form action="/query_age_position" method="post">
         <h2>Trova Giocatori per Età e Posizione</h2>
