@@ -185,3 +185,83 @@ footer ul li a {
 footer ul li a:hover {
   text-decoration: underline;
 }
+
+/* Stili per la tabella dei dettagli giocatore */
+.player-details {
+  margin-top: 20px;
+}
+
+#player-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+#player-table th, #player-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+#player-table th {
+  background-color: #0056a3;
+  color: white;
+}
+
+#player-table td {
+  background-color: #f9f9f9;
+}
+
+/* Stili per la barra di ricerca */
+.search-container {
+  margin-bottom: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.search-container input[type=text] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.search-container input[type=text]:focus {
+  outline: none;
+  border-color: #0056a3;
+}
+
+/* Stili per i pulsanti di navigazione giocatori */
+.pagination {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.pagination button {
+  background-color: #0056a3;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 10px;
+  margin-bottom: 30px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.pagination button:hover {
+  background-color: #003366;
+}
+
+.scritta {
+  margin-top: 10px; /* Aggiunge margine sopra il titolo */
+  margin-bottom: 10px; /* Aggiunge margine sotto il titolo */
+  margin-left: 10px;
+}
