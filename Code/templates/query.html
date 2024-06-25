@@ -29,10 +29,12 @@
         <h1 class="scrittaQuery">Query</h1>
 
         <form action="/query_delete" method="post">
-            <h2>Elimina Giocatore</h2>
-            Nome e Cognome: <input type="text" name="full_name"><br>
-            <input type="submit" value="Invia">
-        </form>
+    <h2>Elimina Giocatore</h2>
+    Nome e Cognome: <input type="text" name="full_name"><br>
+    Posizione in Campo: <input type="text" name="position"><br> <!-- Nuovo campo per la posizione -->
+    <input type="submit" value="Invia">
+</form>
+
 
         <form action="/query_update_age" method="post">
             <h2>Aggiorna Età</h2>

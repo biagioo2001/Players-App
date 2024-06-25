@@ -23,8 +23,8 @@ def safe_float(value):
         return 0.0
 
 
-def query_delete(full_name):
-    query = {"full_name": full_name}
+def query_delete(full_name, position):
+    query = {"full_name": full_name, "position": position}  # Aggiungi la posizione alla query
     player = giocatori_collection.find_one(query)
     if player is None:
         return None
@@ -41,6 +41,7 @@ def query_delete(full_name):
     stagioni_collection.delete_many({"player_id": player_id})
 
     return risultato_giocatore
+
 
 
 

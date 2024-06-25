@@ -44,7 +44,8 @@ def players():
 def handle_query_delete():
     try:
         full_name = request.form.get('full_name')
-        risultato = query_delete(full_name)
+        position = request.form.get('position')  # Ottieni la posizione
+        risultato = query_delete(full_name, position)
         if risultato is None:
             raise PlayerNotFoundError("Player not found")
         return render_template('risultato_delete.html', oggetto=risultato)
@@ -52,6 +53,7 @@ def handle_query_delete():
         return render_template('player_not_found.html', error=str(e))
     except Exception as e:
         return render_template('error.html', error=str(e))
+
 
 @app.route('/query_update_age', methods=['POST'])
 def handle_query_update_age():
