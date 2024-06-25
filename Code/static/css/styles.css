@@ -6,8 +6,11 @@
 }
 
 html, body {
-  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
+
 
 body {
   font-family: 'Arial', sans-serif;
@@ -16,6 +19,7 @@ body {
   line-height: 1.6;
   display: flex;
   flex-direction: column;
+  overflow-y: scroll; /* Mostra sempre la scrollbar verticale */
 }
 
 .container {
@@ -265,3 +269,98 @@ footer ul li a:hover {
   margin-bottom: 10px; /* Aggiunge margine sotto il titolo */
   margin-left: 10px;
 }
+
+/* Stili per i form di query */
+form {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form h2 {
+    margin-top: 0;
+    font-size: 1.5em;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+form input[type="text"],
+form input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+}
+
+/* Stili per i pulsanti di invio nei form */
+input[type="submit"] {
+  background-color: #d4a63e; /* Colore senape */
+  color: white; /* Testo bianco */
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+input[type="submit"]:hover {
+  background-color: #c19035; /* Cambio colore al passaggio del mouse */
+}
+
+
+/* Aggiunta stili per la sezione delle query */
+.query-section {
+    margin-top: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.query-section form {
+    flex-basis: 45%; /* Larghezza delle form nella sezione delle query */
+    margin-bottom: 20px;
+}
+
+/* Stili per i risultati delle query */
+.query-results {
+    margin-top: 40px;
+}
+
+.query-results table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.query-results th,
+.query-results td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.query-results th {
+    background-color: #0056a3;
+    color: white;
+}
+
+.query-results td {
+    background-color: #f9f9f9;
+}
+
+.scrittaQuery {
+    margin-left: 640px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    color: #c19035;
+}
+
