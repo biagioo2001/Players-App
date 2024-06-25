@@ -163,27 +163,23 @@
         for (let input of textInputs) {
             if (input.name === 'full_name' || input.name === 'position' || input.name === 'current_club' || input.name === 'nationality' || input.name === 'league') {
                 if (!isNaN(input.value.trim())) {
-                    showAlert(`Per favore, inserisci solo testo nel campo ${input.name}.`);
-                    input.focus();
+                    showAlert(`Per favore, inserisci solo testo nel campo selezionato.`);
                     input.style.border = '2px solid red';
                     return false;
                 }
             }
             if (input.value.trim() === '') {
                 showAlert(`Per favore, compila tutti i campi di testo richiesti.`);
-                input.focus();
                 input.style.border = '2px solid red';
                 return false;
             }
             if (input === dateInputs[0] && !datePattern.test(input.value.trim())) {
                 showAlert(`Per favore, inserisci una data nel formato corretto (YYYY/MM/DD) per il campo ${input.name}.`);
-                input.focus();
                 input.style.border = '2px solid red';
                 return false;
             }
             if (input === seasonInputs[0] && !seasonPattern.test(input.value.trim())) {
                 showAlert(`Per favore, inserisci una stagione nel formato corretto (YYYY/YYYY) per il campo ${input.name}.`);
-                input.focus();
                 input.style.border = '2px solid red';
                 return false;
             }
@@ -192,13 +188,11 @@
         for (let input of numberInputs) {
             if (input.value.trim() === '') {
                 showAlert(`Per favore, compila tutti i campi numerici richiesti.`);
-                input.focus();
                 input.style.border = '2px solid red';
                 return false;
             }
             if (!input.checkValidity()) {
-                showAlert(`Per favore, inserisci un numero valido per il campo ${input.name}.`);
-                input.focus();
+                showAlert(`Per favore, inserisci un numero valido per il campo selezionato.`);
                 input.style.border = '2px solid red';
                 return false;
             }
