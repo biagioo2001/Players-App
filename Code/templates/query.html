@@ -41,35 +41,86 @@
             <input type="submit" value="Invia">
         </form>
 
-        <form action="/query_insert" method="post" onsubmit="return validateForm(this)">
-            <h2>Inserisci Giocatore</h2>
-            Nome e Cognome: <input type="text" name="full_name" placeholder="Aaron Cresswell" required><br>
-            Età: <input type="number" name="age" placeholder="35" min="1" max="100" required><br>
-            Data di Nascita: <input type="text" name="birthday" placeholder="1989/12/15" pattern="\d{4}/\d{2}/\d{2}" required><br>
-            Posizione: <input type="text" name="position" placeholder="Defender" required><br>
-            Club Attuale: <input type="text" name="current_club" placeholder="West Ham United" required><br>
-            Nazionalità: <input type="text" name="nationality" placeholder="England" required><br>
-            Presenze Totali: <input type="number" name="appearances_overall" placeholder="20" min="0" required><br>
-            Gol Totali: <input type="number" name="goals_overall" placeholder="0" min="0" required><br>
-            Assist Totali: <input type="number" name="assists_overall" placeholder="1" min="0" required><br>
-            Clean Sheets Totali: <input type="number" name="clean_sheets_overall" placeholder="3" min="0" required><br>
-            Cartellini Gialli Totali: <input type="number" name="yellow_cards_overall" placeholder="1" min="0" required><br>
-            Cartellini Rossi Totali: <input type="number" name="red_cards_overall" placeholder="0" min="0" required><br>
-            Minuti Giocati Totali: <input type="number" name="minutes_played_overall" placeholder="1589" min="0" required><br>
-            Gol Casa: <input type="number" name="goals_home" placeholder="0" min="0" required><br>
-            Gol Trasferta: <input type="number" name="goals_away" placeholder="0" min="0" required><br>
-            Assist Casa: <input type="number" name="assists_home" placeholder="1" min="0" required><br>
-            Assist Trasferta: <input type="number" name="assists_away" placeholder="0" min="0" required><br>
-            Clean Sheets Casa: <input type="number" name="clean_sheets_home" placeholder="2" min="0" required><br>
-            Clean Sheets Trasferta: <input type="number" name="clean_sheets_away" placeholder="1" min="0" required><br>
-            Cartellini Gialli Casa: <input type="number" name="yellow_cards_home" placeholder="0" min="0" required><br>
-            Cartellini Gialli Trasferta: <input type="number" name="yellow_cards_away" placeholder="0" min="0" required><br>
-            Cartellini Rossi Casa: <input type="number" name="red_cards_home" placeholder="0" min="0" required><br>
-            Cartellini Rossi Trasferta: <input type="number" name="red_cards_away" placeholder="0" min="0" required><br>
-            League: <input type="text" name="league" placeholder="Premier League" required><br>
-            Stagione: <input type="text" name="season" placeholder="2018/2019" pattern="\d{4}/\d{4}" required><br>
-            <input type="submit" value="Invia">
-        </form>
+
+<!-- Form per inserire nuovo giocatore -->
+<form id="insertPlayerForm" action="/query_insert" method="post" onsubmit="return validateForm(this)">
+    <h2>Inserisci Giocatore</h2>
+    Nome e Cognome: <input type="text" name="full_name" placeholder="Aaron Cresswell" required><br>
+    Età: <input type="number" name="age" placeholder="35" min="1" max="100" required><br>
+    Data di Nascita: <input type="text" name="birthday" placeholder="1989/12/15" pattern="\d{4}/\d{2}/\d{2}" required><br>
+    Posizione: <input type="text" name="position" placeholder="Defender" required><br>
+    Club Attuale: <input type="text" name="current_club" placeholder="West Ham United" required><br>
+    Nazionalità: <input type="text" name="nationality" placeholder="England" required><br>
+    Gol Casa: <input type="number" id="goalsHome" name="goals_home" placeholder="0" min="0" required oninput="calculateTotals()"><br>
+    Gol Trasferta: <input type="number" id="goalsAway" name="goals_away" placeholder="0" min="0" required oninput="calculateTotals()"><br>
+    Assist Casa: <input type="number" id="assistsHome" name="assists_home" placeholder="1" min="0" required oninput="calculateTotals()"><br>
+    Assist Trasferta: <input type="number" id="assistsAway" name="assists_away" placeholder="0" min="0" required oninput="calculateTotals()"><br>
+    Clean Sheets Casa: <input type="number" id="cleanSheetsHome" name="clean_sheets_home" placeholder="2" min="0" required oninput="calculateTotals()"><br>
+    Clean Sheets Trasferta: <input type="number" id="cleanSheetsAway" name="clean_sheets_away" placeholder="1" min="0" required oninput="calculateTotals()"><br>
+    Cartellini Gialli Casa: <input type="number" id="yellowCardsHome" name="yellow_cards_home" placeholder="0" min="0" required oninput="calculateTotals()"><br>
+    Cartellini Gialli Trasferta: <input type="number" id="yellowCardsAway" name="yellow_cards_away" placeholder="0" min="0" required oninput="calculateTotals()"><br>
+    Cartellini Rossi Casa: <input type="number" id="redCardsHome" name="red_cards_home" placeholder="0" min="0" required oninput="calculateTotals()"><br>
+    Cartellini Rossi Trasferta: <input type="number" id="redCardsAway" name="red_cards_away" placeholder="0" min="0" required oninput="calculateTotals()"><br>
+    League: <input type="text" name="league" placeholder="Premier League" required><br>
+    Stagione: <input type="text" name="season" placeholder="2018/2019" pattern="\d{4}/\d{4}" required><br>
+    Minuti Giocati Casa: <input type="number" id="minutesPlayedHome" name="minutes_played_home" placeholder="0" min="0" required oninput="calculateTotals()"><br>
+    Minuti Giocati Trasferta: <input type="number" id="minutesPlayedAway" name="minutes_played_away" placeholder="0" min="0" required oninput="calculateTotals()"><br>
+    Presenze Casa: <input type="number" id="appearancesHome" name="appearances_home" placeholder="0" min="0" required oninput="calculateTotals()"><br>
+    Presenze Trasferta: <input type="number" id="appearancesAway" name="appearances_away" placeholder="0" min="0" required oninput="calculateTotals()"><br>
+
+
+    <!-- Campi nascosti per i totali -->
+    <input type="hidden" id="appearancesOverall" name="appearances_overall" value="0">
+    <input type="hidden" id="goalsOverall" name="goals_overall" value="0">
+    <input type="hidden" id="assistsOverall" name="assists_overall" value="0">
+    <input type="hidden" id="cleanSheetsOverall" name="clean_sheets_overall" value="0">
+    <input type="hidden" id="yellowCardsOverall" name="yellow_cards_overall" value="0">
+    <input type="hidden" id="redCardsOverall" name="red_cards_overall" value="0">
+    <input type="hidden" id="minutesPlayedOverall" name="minutes_played_overall" value="0">
+    <input type="hidden" id="minutesPlayedOverall" name="minutes_played_overall" value="0">
+    <input type="hidden" id="appearancesOverall" name="appearances_overall" value="0">
+
+    <input type="submit" value="Invia">
+</form>
+
+<!-- Script per il calcolo dei totali -->
+<script>
+   function calculateTotals() {
+    const goalsHome = document.getElementById('goalsHome').valueAsNumber || 0;
+    const goalsAway = document.getElementById('goalsAway').valueAsNumber || 0;
+    const assistsHome = document.getElementById('assistsHome').valueAsNumber || 0;
+    const assistsAway = document.getElementById('assistsAway').valueAsNumber || 0;
+    const cleanSheetsHome = document.getElementById('cleanSheetsHome').valueAsNumber || 0;
+    const cleanSheetsAway = document.getElementById('cleanSheetsAway').valueAsNumber || 0;
+    const yellowCardsHome = document.getElementById('yellowCardsHome').valueAsNumber || 0;
+    const yellowCardsAway = document.getElementById('yellowCardsAway').valueAsNumber || 0;
+    const redCardsHome = document.getElementById('redCardsHome').valueAsNumber || 0;
+    const redCardsAway = document.getElementById('redCardsAway').valueAsNumber || 0;
+    const minutesPlayedHome = document.getElementById('minutesPlayedHome').valueAsNumber || 0;
+    const minutesPlayedAway = document.getElementById('minutesPlayedAway').valueAsNumber || 0;
+    const appearancesHome = document.getElementById('appearancesHome').valueAsNumber || 0;
+    const appearancesAway = document.getElementById('appearancesAway').valueAsNumber || 0;
+
+    // Calcola i totali
+    const totalGoals = goalsHome + goalsAway;
+    const totalAssists = assistsHome + assistsAway;
+    const totalCleanSheets = cleanSheetsHome + cleanSheetsAway;
+    const totalYellowCards = yellowCardsHome + yellowCardsAway;
+    const totalRedCards = redCardsHome + redCardsAway;
+    const totalMinutesPlayed = minutesPlayedHome + minutesPlayedAway;
+    const totalAppearances = appearancesHome + appearancesAway;
+
+    // Aggiorna i campi nascosti per i totali
+    document.getElementById('goalsOverall').value = totalGoals;
+    document.getElementById('assistsOverall').value = totalAssists;
+    document.getElementById('cleanSheetsOverall').value = totalCleanSheets;
+    document.getElementById('yellowCardsOverall').value = totalYellowCards;
+    document.getElementById('redCardsOverall').value = totalRedCards;
+    document.getElementById('minutesPlayedOverall').value = totalMinutesPlayed;
+    document.getElementById('appearancesOverall').value = totalAppearances;
+}
+</script>
+
 
         <form action="/query_nationality_position" method="post" onsubmit="return validateForm(this)">
             <h2>Trova Giocatori per Nazionalità e Ruolo</h2>

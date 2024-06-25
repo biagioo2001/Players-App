@@ -4,7 +4,7 @@ from query_manager import (
     query_update_height_weight, query_by_nationality_and_position,
     query_by_min_and_gols, query_by_age_and_position, query_all_players
 )
-from query_manager import query_top_scorers, query_top_assists, query_minutes_played_data, query_yellow_red_cards_data
+from query_manager import query_top_scorers, query_top_assists, query_minutes_played_data, query_yellow_red_cards_data, DuplicatePlayerError
 
 from pymongo import MongoClient
 
@@ -80,6 +80,7 @@ def safe_float(value):
     except ValueError:
         raise BadRequest(f"Invalid float value: {value}")
 
+
 @app.route('/query_insert', methods=['POST'])
 def handle_query_insert_giocatore():
     nuovo_giocatore = {
@@ -133,6 +134,9 @@ def handle_query_insert_giocatore():
         # Assuming query_insert_giocatore and PlayerNotFoundError are defined elsewhere
         risultato = query_insert_giocatore(nuovo_giocatore, stagione)
         return render_template('query_insert.html', oggetto=risultato)
+
+    except DuplicatePlayerError as e:
+        return render_template('Doppione.html', error=str(e))
     except PlayerNotFoundError as e:
         return render_template('player_not_found.html', error=str(e))
     except BadRequest as e:

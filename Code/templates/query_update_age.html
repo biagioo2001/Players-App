@@ -80,10 +80,6 @@
             <td>{{ oggetto.birthday }}</td>
         </tr>
         <tr>
-            <td>GMT Data di Nascita</td>
-            <td>{{ oggetto.birthday_GMT }}</td>
-        </tr>
-        <tr>
             <td>Posizione</td>
             <td>{{ oggetto.position }}</td>
         </tr>
@@ -161,76 +157,12 @@
             <td>{{ stagione.clean_sheets_away }}</td>
         </tr>
         <tr>
-            <td>Goal Concessi Totali</td>
-            <td>{{ stagione.conceded_overall }}</td>
-        </tr>
-        <tr>
-            <td>Goal Concessi in Casa</td>
-            <td>{{ stagione.conceded_home }}</td>
-        </tr>
-        <tr>
-            <td>Goal Concessi Fuori Casa</td>
-            <td>{{ stagione.conceded_away }}</td>
-        </tr>
-        <tr>
             <td>Cartellini Gialli Totali</td>
             <td>{{ stagione.yellow_cards_overall }}</td>
         </tr>
         <tr>
             <td>Cartellini Rossi Totali</td>
             <td>{{ stagione.red_cards_overall }}</td>
-        </tr>
-        <tr>
-            <td>Goal Coinvolti per 90 Minuti Totali</td>
-            <td>{{ stagione.goals_involved_per_90_overall }}</td>
-        </tr>
-        <tr>
-            <td>Assist per 90 Minuti Totali</td>
-            <td>{{ stagione.assists_per_90_overall }}</td>
-        </tr>
-        <tr>
-            <td>Goal Concessi per 90 Minuti Totali</td>
-            <td>{{ stagione.conceded_per_90_overall }}</td>
-        </tr>
-        <tr>
-            <td>Minuti per Goal Concesso Totali</td>
-            <td>{{ stagione.min_per_conceded_overall }}</td>
-        </tr>
-        <tr>
-            <td>Minuti per Partita</td>
-            <td>{{ stagione.min_per_match }}</td>
-        </tr>
-        <tr>
-            <td>Minuti per Cartellino Totali</td>
-            <td>{{ stagione.min_per_card_overall }}</td>
-        </tr>
-        <tr>
-            <td>Minuti per Assist Totali</td>
-            <td>{{ stagione.min_per_assist_overall }}</td>
-        </tr>
-        <tr>
-            <td>Cartellini per 90 Minuti Totali</td>
-            <td>{{ stagione.cards_per_90_overall }}</td>
-        </tr>
-        <tr>
-            <td>Classifica Attaccanti Lega</td>
-            <td>{{ stagione.rank_in_league_top_attackers }}</td>
-        </tr>
-        <tr>
-            <td>Classifica Centrocampisti Lega</td>
-            <td>{{ stagione.rank_in_league_top_midfielders }}</td>
-        </tr>
-        <tr>
-            <td>Classifica Difensori Lega</td>
-            <td>{{ stagione.rank_in_league_top_defenders }}</td>
-        </tr>
-        <tr>
-            <td>Classifica Marcatori Club</td>
-            <td>{{ stagione.rank_in_club_top_scorer }}</td>
-        </tr>
-        <tr>
-            <td>Informazioni Aggiuntive</td>
-            <td>{{ stagione.additional_info }}</td>
         </tr>
         {% endfor %}
     </table>

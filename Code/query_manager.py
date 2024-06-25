@@ -9,6 +9,9 @@ giocatori_collection = db['Players']
 stagioni_collection = db['Seasons']
 
 
+class DuplicatePlayerError(Exception):
+    pass
+
 
 def safe_int(value):
     try:
@@ -85,6 +88,14 @@ def query_update_height_weight(full_name, new_height, new_weight):
 
 
 def query_insert_giocatore(nuovo_giocatore, stagione):
+
+    existing_player = giocatori_collection.find_one({
+        "full_name": nuovo_giocatore["full_name"],
+        "position": nuovo_giocatore["position"]
+    })
+    if existing_player:
+        raise DuplicatePlayerError("Duplicate player found.")
+
     # Ottieni il prossimo ID per il giocatore
     player_id = giocatori_collection.count_documents({})  # Count dei documenti più uno
     nuovo_giocatore["player_id"] = player_id
