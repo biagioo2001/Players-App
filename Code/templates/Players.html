@@ -201,23 +201,46 @@
 
     // Filtra i giocatori nella tabella
     function filterPlayers() {
-      const input = document.getElementById('searchInput');
-      const filter = input.value.toUpperCase();
-      const table = document.getElementById('player-table');
-      const tr = table.getElementsByTagName('tr');
+  const input = document.getElementById('searchInput');
+  const filter = input.value.toUpperCase();
+  const table = document.getElementById('player-table');
+  const tr = table.getElementsByTagName('tr');
 
-      for (let i = 0; i < tr.length; i++) {
-        const td = tr[i].getElementsByTagName('td')[1];
-        if (td) {
-          const txtValue = td.textContent || td.innerText;
-          if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            tr[i].style.display = '';
-          } else {
-            tr[i].style.display = 'none';
-          }
+  for (let i = 0; i < tr.length; i++) {
+    let found = false;
+    // Cerca nei th e td di ogni riga
+    const th = tr[i].getElementsByTagName('th');
+    const td = tr[i].getElementsByTagName('td');
+
+    // Cerca nei th
+    for (let j = 0; j < th.length; j++) {
+      const thTextValue = th[j].textContent || th[j].innerText;
+      if (thTextValue.toUpperCase().indexOf(filter) > -1) {
+        found = true;
+        break;
+      }
+    }
+
+    // Se non trovato nei th, cerca nei td
+    if (!found) {
+      for (let j = 0; j < td.length; j++) {
+        const tdTextValue = td[j].textContent || td[j].innerText;
+        if (tdTextValue.toUpperCase().indexOf(filter) > -1) {
+          found = true;
+          break;
         }
       }
     }
+
+    // Mostra o nascondi la riga in base alla ricerca
+    if (found) {
+      tr[i].style.display = '';
+    } else {
+      tr[i].style.display = 'none';
+    }
+  }
+}
+
 
     // Inizializza la pagina con il primo giocatore
     document.addEventListener('DOMContentLoaded', () => {
