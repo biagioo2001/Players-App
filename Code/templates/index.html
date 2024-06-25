@@ -6,60 +6,74 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Players App</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-
+  <!-- Includi Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
-  <center><h1>Players_App</h1></center>
-  <!-- Header -->
+  <div class="container">
+    <header>
+      <div class="navbar">
+        <div class="logo">
+          <img src="{{ url_for('static', filename='images/Players_App_Logo.png') }}" alt="Logo del sito">
+        </div>
+        <nav>
+          <ul>
+            <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="/players"><i class="fas fa-users"></i> Players</a></li>
+            <li><a href="/query"><i class="fas fa-search"></i> Query</a></li>
+            <li><a href="/statistics"><i class="fas fa-chart-line"></i> Statistiche</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
 
-  <header>
-    <div class="logo">
-      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo del sito">
+    <main>
+      <section class="hero">
+        <div class="hero-overlay">
+          <div class="hero-content">
+            <h1>Benvenuti alla pagina dei giocatori di calcio</h1>
+            <p>
+              Questo è un sito dedicato al controllo delle statistiche dei giocatori di calcio. Puoi usare questa pagina per visualizzare
+              informazioni sui giocatori, squadre, classifiche e varie statistiche legate al calcio.
+            </p>
+            <p>
+              Sentiti libero di personalizzare e aggiungere altri contenuti per rendere questa pagina unica!
+            </p>
+            <a href="#features" class="cta-btn">Scopri di più</a>
+          </div>
+        </div>
+      </section>
 
-    </div>
+      <section id="features" class="features">
+        <div class="feature-item">
+          <h2><i class="fas fa-cogs"></i> Gestione Completa</h2>
+          <p>Visualizza e gestisci le statistiche dei giocatori in modo facile e veloce.</p>
+        </div>
+        <div class="feature-item">
+          <h2><i class="fas fa-sync-alt"></i> Aggiornamenti in Tempo Reale</h2>
+          <p>Segui le ultime statistiche e aggiornamenti delle squadre e dei giocatori.</p>
+        </div>
+        <div class="feature-item">
+          <h2><i class="fas fa-desktop"></i> Interfaccia Intuitiva</h2>
+          <p>Navigazione semplice e user-friendly per un'esperienza utente ottimale.</p>
+        </div>
+      </section>
+    </main>
 
+    <footer>
+      <div class="footer-content">
+        <p>&copy; 2024 Players App. Tutti i diritti riservati.</p>
+        <ul>
+          <li><a href="#privacy"><i class="fas fa-shield-alt"></i> Privacy</a></li>
+          <li><a href="#terms"><i class="fas fa-file-alt"></i> Terms of Use</a></li>
+          <li><a href="#contact"><i class="fas fa-envelope"></i> Contatti</a></li>
+        </ul>
+      </div>
+    </footer>
+  </div>
 
-<nav>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li> <a href="/players">Players</a></li>
-        <li><a href="/query">Query</a></li>
-        <li><a href="/statistics">Statistiche</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <!-- Sezione principale della pagina -->
-  <main>
-    <h1>Benvenuti alla pagina dei giocatori di calcio</h1>
-    <p>
-      Questo è un sito dedicato al controllo delle statistiche dei giocatori di calcio. Puoi usare questa pagina per visualizzare
-      informazioni sui giocatori, squadre, calendari e varie statistiche legate al calcio.
-    </p>
-    <p>
-      Sentiti libero di personalizzare e aggiungere altri contenuti per rendere questa pagina unica!
-    </p>
-
-    <!-- Contenitore React dove viene visualizzata la lista dei giocatori e il form per aggiungere un giocatore -->
-    <div id="root"></div>
-  </main>
-
-  <!-- Footer -->
-  <footer>
-    <div class="footer-content">
-      <p>&copy; 2024 Players App. Tutti i diritti riservati.</p>
-      <ul>
-        <li><a href="#privacy">Privacy</a></li>
-        <li><a href="#terms">Terms of Use</a></li>
-        <li><a href="#contact">Contatti</a></li>
-      </ul>
-    </div>
-  </footer>
-
-  <!-- Script per il codice React -->
   <script src="./static/query.js"></script>
-  <script src="./index.html"></script>
 </body>
 
 </html>
