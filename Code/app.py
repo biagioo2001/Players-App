@@ -147,36 +147,31 @@ def handle_query_nationality_position():
     position = request.form['position']
     try:
         risultati = query_by_nationality_and_position(nationality, position)
-        return render_template('Players.html', players=risultati)
+        if risultati is None or len(risultati) == 0:
+            return render_template('0Risultato.html')  # Nessun dato trovato o risultato con valore zero
+        else:
+            return render_template('Players.html', players=risultati)  # Risultati trovati
     except PlayerNotFoundError as e:
         return render_template('player_not_found.html', error=str(e))
     except Exception as e:
         return render_template('error.html', error=str(e))
 
-
 @app.route('/query_by_min_and_gols', methods=['POST'])
 def handle_query_by_min_and_gols():
     try:
-        # Ottieni i valori di min e goals dal form
         min_minutes = int(request.form['min'])
         min_goals = int(request.form['goals'])
-
-        # Esegui la query per ottenere i risultati
         risultati = query_by_min_and_gols(min_minutes, min_goals)
-
-        # Ritorna i risultati alla pagina Players.html
-        return render_template('Players.html', players=risultati)
-
+        if risultati is None or len(risultati) == 0:
+            return render_template('0Risultato.html')  # Nessun dato trovato o risultato con valore zero
+        else:
+            return render_template('Players.html', players=risultati)  # Risultati trovati
     except ValueError:
-        # Gestione degli errori nel caso di input non validi (es. non numerici)
         error_msg = 'Invalid input, please enter numbers.'
         return render_template('error.html', error=error_msg)
-
     except Exception as e:
-        # Gestione di altre eccezioni non previste
         error_msg = str(e)
         return render_template('error.html', error=error_msg)
-
 
 @app.route('/query_age_position', methods=['POST'])
 def handle_query_age_position():
@@ -185,25 +180,20 @@ def handle_query_age_position():
         max_age = int(request.form['max_age'])
         position = request.form['position']
 
-        # Assicurati che min_age sia minore di max_age
         if min_age > max_age:
             raise ValueError("L'età minima non può essere maggiore dell'età massima.")
 
-        # Esegui la query per ottenere i giocatori con l'età e la posizione specificate
         risultati = query_by_age_and_position(min_age, max_age, position)
 
-        if not risultati:
-            raise PlayerNotFoundError("Nessun giocatore trovato con i criteri specificati.")
-
-        return render_template('Players.html', players=risultati)
-
+        if risultati is None or len(risultati) == 0:
+            return render_template('0Risultato.html')  # Nessun dato trovato o risultato con valore zero
+        else:
+            return render_template('Players.html', players=risultati)  # Risultati trovati
     except ValueError as ve:
         error_msg = f"Errore: {str(ve)}"
         return render_template('error.html', error=error_msg)
-
     except PlayerNotFoundError as e:
         return render_template('player_not_found.html', error=str(e))
-
     except Exception as e:
         error_msg = f"Errore imprevisto: {str(e)}"
         return render_template('error.html', error=error_msg)

@@ -1,0 +1,45 @@
+<!-- oggetto_modificato.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Players App</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <!-- Includi Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="navbar">
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='images/Players_App_Logo.png') }}" alt="Logo del sito">
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="/players"><i class="fas fa-users"></i> Players</a></li>
+                        <li><a href="/query"><i class="fas fa-search"></i> Query</a></li>
+                        <li><a href="/statistics"><i class="fas fa-chart-line"></i> Statistiche</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+    <main>
+      <h1>Attualmente nel Database ci sono 0 risultati per la vostra ricerca</h1>
+    </main>
+ <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <p>&copy; 2024 Players App. Tutti i diritti riservati.</p>
+                <ul>
+                    <li><a href="#privacy"><i class="fas fa-shield-alt"></i> Privacy</a></li>
+                    <li><a href="#terms"><i class="fas fa-file-alt"></i> Terms of Use</a></li>
+                    <li><a href="#contact"><i class="fas fa-envelope"></i> Contatti</a></li>
+                </ul>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
