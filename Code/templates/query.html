@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Players App</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-  <!-- Includi Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
@@ -28,70 +27,69 @@
 
         <h1 class="scrittaQuery">Query</h1>
 
-        <form action="/query_delete" method="post">
-    <h2>Elimina Giocatore</h2>
-    Nome e Cognome: <input type="text" name="full_name"><br>
-    Posizione in Campo: <input type="text" name="position"><br> <!-- Nuovo campo per la posizione -->
-    <input type="submit" value="Invia">
-</form>
+        <form action="/query_delete" method="post" onsubmit="return validateForm(this)">
+            <h2>Elimina Giocatore</h2>
+            Nome e Cognome: <input type="text" name="full_name" placeholder="Aaron Cresswell" required><br>
+            Posizione in campo: <input type="text" name="position" placeholder="Defender" required><br>
+            <input type="submit" value="Invia">
+        </form>
 
-
-        <form action="/query_update_age" method="post">
+        <form action="/query_update_age" method="post" onsubmit="return validateForm(this)">
             <h2>Aggiorna Età</h2>
-            Nome e Cognome: <input type="text" name="full_name"><br>
-            Nuova Età: <input type="number" name="new_age"><br>
+            Nome e Cognome: <input type="text" name="full_name" placeholder="Aaron Cresswell" required><br>
+            Nuova Età: <input type="number" name="new_age" placeholder="35" min="1" max="100" required><br>
             <input type="submit" value="Invia">
         </form>
 
-        <form action="/query_insert" method="post">
+        <form action="/query_insert" method="post" onsubmit="return validateForm(this)">
             <h2>Inserisci Giocatore</h2>
-            Nome e Cognome: <input type="text" name="full_name"><br>
-            Età: <input type="number" name="age"><br>
-            Data di Nascita: <input type="text" name="birthday"><br>
-            Posizione: <input type="text" name="position"><br>
-            Club Attuale: <input type="text" name="current_club"><br>
-            Nazionalità: <input type="text" name="nationality"><br>
-            Presenze Totali: <input type="number" name="appearances_overall"><br>
-            Gol Totali: <input type="number" name="goals_overall"><br>
-            Assist Totali: <input type="number" name="assists_overall"><br>
-            Clean Sheets Totali: <input type="number" name="clean_sheets_overall"><br>
-            Cartellini Gialli Totali: <input type="number" name="yellow_cards_overall"><br>
-            Cartellini Rossi Totali: <input type="number" name="red_cards_overall"><br>
-            Minuti Giocati Totali: <input type="number" name="minutes_played_overall"><br>
-            Gol Casa: <input type="number" name="goals_home"><br>
-            Gol Trasferta: <input type="number" name="goals_away"><br>
-            Assist Casa: <input type="number" name="assists_home"><br>
-            Assist Trasferta: <input type="number" name="assists_away"><br>
-            Clean Sheets Casa: <input type="number" name="clean_sheets_home"><br>
-            Clean Sheets Trasferta: <input type="number" name="clean_sheets_away"><br>
-            Cartellini Gialli Casa: <input type="number" name="yellow_cards_home"><br>
-            Cartellini Gialli Trasferta: <input type="number" name="yellow_cards_away"><br>
-            Cartellini Rossi Casa: <input type="number" name="red_cards_home"><br>
-            Cartellini Rossi Trasferta: <input type="number" name="red_cards_away"><br>
-            League: <input type="text" name="league"><br>
-            Stagione: <input type="text" name="season"><br>
+            Nome e Cognome: <input type="text" name="full_name" placeholder="Aaron Cresswell" required><br>
+            Età: <input type="number" name="age" placeholder="35" min="1" max="100" required><br>
+            Data di Nascita: <input type="text" name="birthday" placeholder="1989/12/15" pattern="\d{4}/\d{2}/\d{2}" required><br>
+            Posizione: <input type="text" name="position" placeholder="Defender" required><br>
+            Club Attuale: <input type="text" name="current_club" placeholder="West Ham United" required><br>
+            Nazionalità: <input type="text" name="nationality" placeholder="England" required><br>
+            Presenze Totali: <input type="number" name="appearances_overall" placeholder="20" min="0" required><br>
+            Gol Totali: <input type="number" name="goals_overall" placeholder="0" min="0" required><br>
+            Assist Totali: <input type="number" name="assists_overall" placeholder="1" min="0" required><br>
+            Clean Sheets Totali: <input type="number" name="clean_sheets_overall" placeholder="3" min="0" required><br>
+            Cartellini Gialli Totali: <input type="number" name="yellow_cards_overall" placeholder="1" min="0" required><br>
+            Cartellini Rossi Totali: <input type="number" name="red_cards_overall" placeholder="0" min="0" required><br>
+            Minuti Giocati Totali: <input type="number" name="minutes_played_overall" placeholder="1589" min="0" required><br>
+            Gol Casa: <input type="number" name="goals_home" placeholder="0" min="0" required><br>
+            Gol Trasferta: <input type="number" name="goals_away" placeholder="0" min="0" required><br>
+            Assist Casa: <input type="number" name="assists_home" placeholder="1" min="0" required><br>
+            Assist Trasferta: <input type="number" name="assists_away" placeholder="0" min="0" required><br>
+            Clean Sheets Casa: <input type="number" name="clean_sheets_home" placeholder="2" min="0" required><br>
+            Clean Sheets Trasferta: <input type="number" name="clean_sheets_away" placeholder="1" min="0" required><br>
+            Cartellini Gialli Casa: <input type="number" name="yellow_cards_home" placeholder="0" min="0" required><br>
+            Cartellini Gialli Trasferta: <input type="number" name="yellow_cards_away" placeholder="0" min="0" required><br>
+            Cartellini Rossi Casa: <input type="number" name="red_cards_home" placeholder="0" min="0" required><br>
+            Cartellini Rossi Trasferta: <input type="number" name="red_cards_away" placeholder="0" min="0" required><br>
+            League: <input type="text" name="league" placeholder="Premier League" required><br>
+            Stagione: <input type="text" name="season" placeholder="2018/2019" pattern="\d{4}/\d{4}" required><br>
             <input type="submit" value="Invia">
         </form>
 
-        <form action="/query_nationality_position" method="post">
+        <form action="/query_nationality_position" method="post" onsubmit="return validateForm(this)">
             <h2>Trova Giocatori per Nazionalità e Ruolo</h2>
-            Nazionalità: <input type="text" name="nationality"><br>
-            Ruolo: <input type="text" name="position"><br>
+            Nazionalità: <input type="text" name="nationality" placeholder="England" required><br>
+            Ruolo: <input type="text" name="position" placeholder="Defender" required><br>
             <input type="submit" value="Invia">
         </form>
 
-        <form action="/query_by_min_and_gols" method="post">
+        <form action="/query_by_min_and_gols" method="post" onsubmit="return validateForm(this)">
             <h2>Trova Giocatori per Minutaggio Partita e Gol Totali</h2>
-            Minutaggio minimo: <input type="text" name="min"><br>
-            Gol minimi: <input type="text" name="goals"><br>
+            Minutaggio minimo: <input type="number" name="min" placeholder="1000" min="0" required><br>
+            Gol minimi: <input type="number" name="goals" placeholder="5" min="0" required><br>
             <input type="submit" value="Cerca">
         </form>
 
-        <form action="/query_age_position" method="post">
+        <form action="/query_age_position" method="post" onsubmit="return validateForm(this)">
             <h2>Trova Giocatori per Età e Posizione</h2>
-            Età Minima: <input type="number" name="min_age"><br>
-            Età Massima: <input type="number" name="max_age"><br>
-            Posizione: <input type="text" name="position"><br>
+            Età Minima: <input type="number" name="min_age" placeholder="20" min="1" max="100" required><br>
+            Età Massima: <input type="number" name="max_age" placeholder="30" min="1" max="100" required><br>
+            Posizione: <input type="text" name="position" placeholder="Defender" required><br>
             <input type="submit" value="Invia">
         </form>
 
@@ -107,5 +105,138 @@
             </div>
         </footer>
     </div>
+<script>
+    function validateForm(form) {
+        const textInputs = form.querySelectorAll('input[type="text"]');
+        const numberInputs = form.querySelectorAll('input[type="number"]');
+        const dateInputs = form.querySelectorAll('input[type="text"][name="birthday"]');
+        const seasonInputs = form.querySelectorAll('input[type="text"][name="season"]');
+        const datePattern = /^\d{4}\/\d{2}\/\d{2}$/;
+        const seasonPattern = /^\d{4}\/\d{4}$/;
+
+        // Funzione per rimuovere il bordo rosso quando l'input diventa valido
+        function removeRedBorder(input) {
+            input.style.border = '';
+        }
+
+        // Aggiungi event listener per rimuovere il bordo rosso quando l'utente inizia a modificare il campo
+        textInputs.forEach(input => {
+            input.addEventListener('input', () => {
+                if (input.checkValidity()) {
+                    removeRedBorder(input);
+                }
+            });
+
+            input.addEventListener('change', () => {
+                if (input.checkValidity()) {
+                    removeRedBorder(input);
+                }
+            });
+
+            input.addEventListener('focus', () => {
+                if (input.style.border === '2px solid red') {
+                    removeRedBorder(input);
+                }
+            });
+        });
+
+        numberInputs.forEach(input => {
+            input.addEventListener('input', () => {
+                if (input.checkValidity()) {
+                    removeRedBorder(input);
+                }
+            });
+
+            input.addEventListener('change', () => {
+                if (input.checkValidity()) {
+                    removeRedBorder(input);
+                }
+            });
+
+            input.addEventListener('focus', () => {
+                if (input.style.border === '2px solid red') {
+                    removeRedBorder(input);
+                }
+            });
+        });
+
+        for (let input of textInputs) {
+            if (input.name === 'full_name' || input.name === 'position' || input.name === 'current_club' || input.name === 'nationality' || input.name === 'league') {
+                if (!isNaN(input.value.trim())) {
+                    showAlert(`Per favore, inserisci solo testo nel campo ${input.name}.`);
+                    input.focus();
+                    input.style.border = '2px solid red';
+                    return false;
+                }
+            }
+            if (input.value.trim() === '') {
+                showAlert(`Per favore, compila tutti i campi di testo richiesti.`);
+                input.focus();
+                input.style.border = '2px solid red';
+                return false;
+            }
+            if (input === dateInputs[0] && !datePattern.test(input.value.trim())) {
+                showAlert(`Per favore, inserisci una data nel formato corretto (YYYY/MM/DD) per il campo ${input.name}.`);
+                input.focus();
+                input.style.border = '2px solid red';
+                return false;
+            }
+            if (input === seasonInputs[0] && !seasonPattern.test(input.value.trim())) {
+                showAlert(`Per favore, inserisci una stagione nel formato corretto (YYYY/YYYY) per il campo ${input.name}.`);
+                input.focus();
+                input.style.border = '2px solid red';
+                return false;
+            }
+        }
+
+        for (let input of numberInputs) {
+            if (input.value.trim() === '') {
+                showAlert(`Per favore, compila tutti i campi numerici richiesti.`);
+                input.focus();
+                input.style.border = '2px solid red';
+                return false;
+            }
+            if (!input.checkValidity()) {
+                showAlert(`Per favore, inserisci un numero valido per il campo ${input.name}.`);
+                input.focus();
+                input.style.border = '2px solid red';
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    function showAlert(message) {
+        const alertBox = document.createElement('div');
+        alertBox.classList.add('alert');
+        alertBox.textContent = message;
+
+        document.body.appendChild(alertBox);
+
+        setTimeout(() => {
+            alertBox.remove();
+        }, 3000); // Rimuove l'avviso dopo 3 secondi
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const forms = document.querySelectorAll('form');
+        forms.forEach(form => {
+            form.addEventListener('submit', (event) => {
+                const inputs = form.querySelectorAll('input[type="text"], input[type="number"]');
+                inputs.forEach(input => {
+                    input.style.border = '';
+                });
+
+                if (!validateForm(form)) {
+                    event.preventDefault();
+                }
+            });
+        });
+    });
+</script>
+
+
+
 </body>
 </html>
